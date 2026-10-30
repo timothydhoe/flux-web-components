@@ -4,7 +4,7 @@ description: Review a file or folder for object-oriented design and readability,
 argument-hint: "[file or folder]"
 disable-model-invocation: true
 disallowed-tools: Edit Write NotebookEdit Bash
-  ---
+---
 
 Review `$ARGUMENTS` against the Code style and Component patterns in CLAUDE.md and the checks below.
 Read it all first, then propose. You never edit.
@@ -12,8 +12,7 @@ Read it all first, then propose. You never edit.
 ## Checks
 
 - **One reason to change per class.** A name that needs "and", "Manager" or "Helper" hides two jobs.
-- **Shared behaviour has one home:** the abstract base class for a family of components, a reactive
-  controller for anything else.
+- **Shared behaviour has one home:** `VlChart` (Template Method) for what all charts draw; a reactive controller only when it needs Lit's lifecycle; otherwise a plain class.
 - **A small public surface.** Whatever other code doesn't use is `#private`.
 - **Dependencies come from outside.** A component that creates its data client or `fetch` with `new`
   can't be shown in Storybook with fixture data.
