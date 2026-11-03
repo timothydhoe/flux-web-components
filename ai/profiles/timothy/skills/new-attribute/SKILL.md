@@ -1,7 +1,7 @@
 ---
 name: new-attribute
 description: Decide where a proposed chart setting belongs (HTML, spec, data contract, component, or attribute) before it becomes public API.
-argument-hint: "[attribute name and what it does]"
+argument-hint: "<attribute-name> <what it does>"
 disable-model-invocation: true
 disallowed-tools: Edit Write NotebookEdit Bash
 ---

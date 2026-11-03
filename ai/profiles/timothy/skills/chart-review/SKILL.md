@@ -1,7 +1,7 @@
 ---
 name: chart-review
 description: Review a chart component against the data-visualisation rules and report findings, without changing files.
-argument-hint: "[file or folder]"
+argument-hint: "<libs/data-visualisation/src/line/>"
 disable-model-invocation: true
 disallowed-tools: Edit Write NotebookEdit Bash
 ---

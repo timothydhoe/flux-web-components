@@ -1,7 +1,7 @@
 ---
 name: flux-check
 description: Conventiecheck van de branch-diff tegen de Flux-regels (code, tokens, WCAG, tests, stories, metadata, commits). Vóór commit of PR; aanvulling op /code-review.
-argument-hint: "[base-branch]"
+argument-hint: "[develop-v2]"
 context: fork
 ---
 

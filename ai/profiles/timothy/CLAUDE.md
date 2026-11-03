@@ -66,7 +66,7 @@ Components extend base classes from `@domg-wc/common`, not `LitElement` directly
 | Tests          | `vl-chart-line.component.cy.ts`                                           |
 | Stories        | `stories/vl-chart-line.stories.ts`, `.stories-arg.ts`, `.stories-doc.mdx` |
 
-File naming is still open (Flux question 4); follow `libs/map/` until it is decided.
+File naming follows the table above (`.component.ts`), not `libs/map/`.
 
 - Identifiers are English and read as a sentence in domain terms: `averageOverMeasurementPeriod`, `#openTooltipAt(point)`. Long names are fine, abbreviations are not.
 - Methods are verbs (`build…`, `render…`, `load…`); values are nouns.
@@ -122,13 +122,18 @@ Components get Cypress component tests (`*.component.cy.ts`). Plain logic such a
 - Check facts in the repo before claiming them (paths, scripts, versions); say what was checked.
 - When a rule here conflicts with the Flux code, say so instead of following either one silently.
 
+## Sessions
+
+- One topic per session. When it drifts to a second topic, say so and suggest a new session.
+- When the topic is done, suggest `/wrap-up`.
+
 ## Sources
 
 Link to these when you give a reason: lit.dev/docs, developer.mozilla.org, typescriptlang.org/docs, plotly.com/javascript, w3.org/WAI/WCAG22/quickref, docs.cypress.io, storybook.js.org/docs, and the Flux Storybook (flux.omgeving.vlaanderen.be/release-v2/latest/storybook).
 
 For chart design, in this order:
 1. EU Data Visualisation Guide: data.europa.eu/apps/data-visualisation-guide (with its Chartability page for accessibility).
-2. The departmental house style for charts.
+2. House style: Flux Web Components (design tokens, the Flux Storybook) and the graph specific palettes in `colors.json`.
 3. Tie-breakers: Atlassian data charts (atlassian.com/data/charts) and ONS (service-manual.ons.gov.uk/data-visualisation). For which chart type fits which question: FT Visual Vocabulary (ft-interactive.github.io/visual-vocabulary).
 
 ## Skills
@@ -139,3 +144,4 @@ For chart design, in this order:
 - `/wcag-audit vl-name`: WCAG 2.2 AA audit of one component
 - `/flux-check`: convention check of the branch diff
 - `/new-attribute name`: the five-question test for where a new setting belongs
+- `/wrap-up`: close a session with decisions, outdated docs and the next topic

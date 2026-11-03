@@ -1,7 +1,7 @@
 ---
 name: refactor
 description: Review a file or folder for object-oriented design and readability, and propose refactorings.
-argument-hint: "[file or folder]"
+argument-hint: "<libs/path/file.ts or folder/>"
 disable-model-invocation: true
 disallowed-tools: Edit Write NotebookEdit Bash
 ---

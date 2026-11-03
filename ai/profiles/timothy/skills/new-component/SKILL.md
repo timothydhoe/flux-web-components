@@ -1,7 +1,7 @@
 ---
 name: new-component
 description: Scaffold een nieuw Flux component (vl-*) met code, flux-css, tests, stories, metadata, web-types en exports.
-argument-hint: <vl-naam> <atom|block|form|compliance>
+argument-hint: "<vl-name> <atom|block|form|compliance>"
 ---
 
 # Nieuw component scaffolden

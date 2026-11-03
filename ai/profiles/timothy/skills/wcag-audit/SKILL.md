@@ -1,7 +1,7 @@
 ---
 name: wcag-audit
 description: WCAG 2.2 AA-audit van één Flux component: code-review, meetrun tegen Storybook (axe, toetsenbord, focus, reflow), rapport en voorstel voor de wcag-metadata.
-argument-hint: <vl-naam>
+argument-hint: "<vl-name>"
 ---
 
 # WCAG 2.2 AA-audit
