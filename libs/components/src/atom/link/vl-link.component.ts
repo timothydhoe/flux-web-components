@@ -1,5 +1,5 @@
 import { BaseLitElement, ICON_PLACEMENT, webComponent } from '@domg-wc/common';
-import { CSSResult, html, nothing, PropertyDeclarations, TemplateResult } from 'lit';
+import { CSSResult, html, LitElement, nothing, PropertyDeclarations, TemplateResult } from 'lit';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { vlIconStyles } from '../icon-style/vl-icon-style.css';
@@ -24,6 +24,8 @@ export class VlLinkComponent extends BaseLitElement {
     private buttonAsLink = linkDefaults.buttonAsLink;
     private type = linkDefaults.type;
 
+    static shadowRootOptions = { ...LitElement.shadowRootOptions, delegatesFocus: true };
+
     static get styles(): CSSResult[] {
         return [vlLinkFluxStyles, vlLinkStyles(), vlLinkIconStyles, buttonAsLinkStyles, vlIconStyles];
     }
@@ -43,6 +45,8 @@ export class VlLinkComponent extends BaseLitElement {
             iconPlacement: { type: String, attribute: 'icon-placement' },
             buttonAsLink: { type: Boolean, attribute: 'button-as-link' },
             type: { type: String },
+            // overschaduwt de native ARIAMixin-accessor zodat een gewijzigd aria-current een render triggert
+            ariaCurrent: { type: String, attribute: 'aria-current', reflect: true },
         };
     }
 
@@ -65,6 +69,7 @@ export class VlLinkComponent extends BaseLitElement {
                       download=${ifDefined(this.download ?? undefined)}
                       part="link"
                       aria-label=${this.label || nothing}
+                      aria-current=${this.ariaCurrent || nothing}
                       aria-haspopup=${ifDefined(
                           this.hasAttribute('aria-haspopup')
                               ? (this.getAttribute('aria-haspopup') as
@@ -88,6 +93,7 @@ export class VlLinkComponent extends BaseLitElement {
                       type=${this.type}
                       part="button"
                       aria-label=${this.label || nothing}
+                      aria-current=${this.ariaCurrent || nothing}
                       aria-haspopup=${ifDefined(
                           this.hasAttribute('aria-haspopup')
                               ? (this.getAttribute('aria-haspopup') as

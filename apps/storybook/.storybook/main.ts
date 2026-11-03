@@ -147,6 +147,10 @@ const config: StorybookConfig = {
                 __dirname,
                 '../../../libs/components/src/block/next/index.ts',
             ),
+            '@domg-wc/components/block/badge': path.resolve(
+                __dirname,
+                '../../../libs/components/src/block/badge/index.ts',
+            ),
             '@domg-wc/components/block': path.resolve(__dirname, '../../../libs/components/src/block/index.ts'),
             '@domg-wc/components/compliance/next': path.resolve(
                 __dirname,
@@ -160,10 +164,6 @@ const config: StorybookConfig = {
             '@domg-wc/integrations/form': path.resolve(__dirname, '../../../libs/integrations/src/form/index.ts'),
             '@domg-wc/integrations/map': path.resolve(__dirname, '../../../libs/integrations/src/map/index.ts'),
             '@domg-wc/integrations/popover': path.resolve(__dirname, '../../../libs/integrations/src/popover/index.ts'),
-            '@domg-wc/integrations/page-layout': path.resolve(
-                __dirname,
-                '../../../libs/integrations/src/page-layout/index.ts',
-            ),
             '@domg-wc/map': path.resolve(__dirname, '../../../libs/map/src/index.ts'),
             '@domg-wc/structures': path.resolve(__dirname, '../../../libs/structures/src/index.ts'),
             '@domg-wc/styles': path.resolve(__dirname, '../../../libs/styles/src/index.ts'),

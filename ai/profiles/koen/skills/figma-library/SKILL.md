@@ -56,6 +56,10 @@ reden waarom hij open is en een werkende omweg.
   aflopend, `sortable - unsorted` niet gesorteerd. In code komt sorteren enkel van `vl-rich-data-table`: de kop
   is daar altijd onderstreept, en zonder sortering is er geen icoon en geen gereserveerde ruimte. De
   sorteerklassen in `vl-table.css.ts` worden nergens gebruikt.
+- **Smalle actiekolom in een tabel:** zet de laatste cel van élke rij op `Hug` en geef ook de kopregel de
+  actieknop, met `opacity = 0`. Figma kent geen gedeelde kolombreedte: staat de kopcel op `Fill` of leeg,
+  dan loopt de kolom per rij uit de pas. Dragen niet alle rijen een actie, dan krijgen de andere eveneens
+  een knop op `opacity = 0`.
 - **Nooit een component namaken** met losse frames + borders + eigen tekst. Elk UI-patroon dat op een
   component lijkt, ís er bijna altijd een. `search_design_system` geeft enkel de top-matches: varieer met
   synoniemen én korte losse termen, NL én EN (zoek ook op `tile` apart, niet enkel `data tile`). Grep ook de
@@ -74,15 +78,15 @@ reden waarom hij open is en een werkende omweg.
 
 ## Designs maken (code → design)
 
-- **Pagina's:** `vl-template` is de standaardkeuze; `vl-dashboard` enkel voor grote applicaties die eerder
+- **Pagina's:** `vl-page` is de standaardkeuze; `vl-dashboard` enkel voor grote applicaties die eerder
   een dashboard of desktop-app zijn. Stel gerichte vragen om die keuze te valideren vóór je begint. Bij
-  `vl-template` met grote tabellen of een kaart: full-width functional header en full-width content-blokken.
+  `vl-page` met grote tabellen of een kaart: full-width functional header en full-width content-blokken.
 - **Opbouw van de main content:** `vl-section`, en daarbinnen `vl-content-block`. Vul de meegeleverde
   `.vl-section`-slots in; verzin er niets naast.
 - **Zijnavigatie** (TOC van de pagina) komt rond de content, binnen de `vl-content-block`, met
   `vl-side-navigation` op een `vl-grid`. In code is dat `vl-side-navigation-layout-next`
   (`content-block heading-root-selector="#..."`), dat de TOC uit de heading-ids genereert. Voorbeeld:
-  `libs/integrations/src/page-layout/page-layout-example.component.ts` en Figma-node `563-51452`.
+  `apps/storybook/docs/f_patronen/pagina-opbouw/pagina-opbouw.helpers.ts` en Figma-node `563-51452`.
 - **Bedenk geen eigen layouts** — geen eigen frames, backgrounds, borders of spacing. Een component weet
   niet in welke parent hij zit: de **parent bepaalt de spacing**, met `.vl-stacked` voor verticaal en
   `.vl-group` voor horizontaal. Gebruik `vl-title` met `no-space-bottom` in een `.vl-stacked`.
@@ -97,7 +101,7 @@ reden waarom hij open is en een werkende omweg.
 
 | Wat je zoekt | Component |
 |---|---|
-| Pagina-layout (standaard / dashboard) | `vl-template` / `vl-dashboard` |
+| Pagina-layout (standaard / dashboard) | `vl-page` / `vl-dashboard` |
 | App-/titelbalk bovenaan | `vl-functional-header` |
 | Footer | `vl-footer` |
 | Knop · link | `vl-button` · `vl-link` |
@@ -135,6 +139,13 @@ reden waarom hij open is en een werkende omweg.
   `resize()` op geneste nodes.
 - **Probeer `layoutSizing` vóór je "vaste maat" concludeert**, en lees de properties van **geneste**
   instances, niet enkel van de root.
+- **Scan een afgewerkt design op ingeklapte instances** (breedte of hoogte < 5px, `.vl-separator` en
+  `vl-progress-bar` uitgezonderd): een 1px hoge knop of titel rendert nog wel, maar haar rand leest als een
+  streep door de tekst en de spacing klopt niet. `layoutSizingVertical = 'HUG'` zet ze terug.
+- **Icoonkleur in een knop is een kleurstijl op de laag `Shape`, per variant.** Herstel een afwijkend icoon
+  met `setFillStyleIdAsync(<stijl van de variant>)`, nooit met een losse fill: een losse kleur is een
+  override die elke latere typewissel overleeft. Controle: vergelijk met de `Shape` in het eigen main
+  component (`getMainComponentAsync`), zodat `state` (disabled, actief navigatie-item) meetelt.
 - **`Fill` in een `Hug`-parent is circulair.** Een frame blijft dan op zijn laatste breedte; een tekst valt
   terug op zijn natuurlijke breedte. Oplossing: parent `Fixed`, kind `Fill`.
 - **Native SLOT vs `[Flux] Slot`-instance.** In een instance kan je enkel bouwen in een native SLOT, of
@@ -166,6 +177,8 @@ reden waarom hij open is en een werkende omweg.
   `figma.mixed` faalt op tekst in een instance ("Cannot unwrap symbol").
 - **`t.characters = …` geeft de hele tekst de opmaak van het eerste teken.** Lees vooraf álle
   range-eigenschappen (fills, fontName, textDecoration, …), zet ze terug en controleer ze allemaal.
+- **Een regelbreuk in een tabelcel is ` `, geen `\n`.** De celtekst van `vl-table` heeft
+  `paragraphSpacing` 18: met `\n` krijg je een witregel tussen de twee regels.
 - **`textAutoResize` vóór `layoutSizing`**; `HUG` op tekst met `textAutoResize = NONE` valt stil terug op
   `FIXED`.
 - **INSTANCE_SWAP en `swapComponent` vragen een lokaal id:** `importComponentByKeyAsync(key)`, per script
@@ -205,6 +218,11 @@ reden waarom hij open is en een werkende omweg.
 
 - Parserless `*.figma.ts`-templates naast de componentcode. De sleutel is `(fileKey, nodeId, label)`;
   er is geen versie-as.
+- **Maak van een los component geen set** (geen variant-as toevoegen) zonder het met de templates af te
+  stemmen. Het component wordt een variant in een nieuwe set met een andere node-ID, en Code Connect aanvaardt
+  enkel een component of set op het hoogste niveau: na de merge faalt `code connect: validate` op élke branch
+  tot de URL in het template volgt. Terugdraaien kan: `page.appendChild(variant)` maakt er weer een los
+  component van, met dezelfde node-ID en key, en Figma zet zijn eigen properties met hun oude keys terug.
 - **Pas de template aan bij elke nieuwe Figma-property of variant-waarde** — de drift-check
   (`pnpm run figma:code-connect:check`) meldt VARIANT-waarden die niet gelezen worden. Valideren:
   `pnpm run figma:code-connect:validate` (contacteert de Figma-API). Beide lezen de token uit `FIGMA_TOKEN`.

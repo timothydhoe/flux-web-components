@@ -11,6 +11,12 @@
             "wcag": "FLUX-205",
             "jiraMeta": "FLUX-21",
             "dv": { "idea": "DS-134", "name": "Collapsible (FKA accordion)", "status": "Productie" }
+        },
+        "evolution": {
+            "vStatus": "v2-replace",
+            "legacyText": "vl-accordion",
+            "nextText": "[vl-accordion-next](/docs/components-block-next-accordion--documentatie)",
+            "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#accordion)"
         }
     },
     "components-block-alert": {
@@ -39,6 +45,23 @@
             "wcag": "FLUX-208",
             "jiraMeta": "FLUX-200",
             "dv": { "idea": "DS-146", "name": "Dynamic Select", "status": "Discovery" }
+        }
+    },
+    "components-block-badge": {
+        "name": "badge",
+        "docs": "components-block-badge--documentatie",
+        "condition": {
+            "base": "LitElement",
+            "generation": "v2",
+            "css": "Flux",
+            "tests": ["Component", "Storybook"],
+            "documentation": "basis",
+            "wcag": "TODO",
+            "jiraMeta": "FLUX-806"
+        },
+        "evolution": {
+            "vStatus": "v2-new",
+            "nextText": "vl-badge"
         }
     },
     "components-block-breadcrumb": {
@@ -213,6 +236,12 @@
             "wcag": "FLUX-731",
             "jiraMeta": "FLUX-97",
             "dv": { "idea": "DS-130", "name": "Card", "status": "Spec" }
+        },
+        "evolution": {
+            "vStatus": "v2-replace",
+            "legacyText": "vl-info-tile",
+            "nextText": "[vl-info-tile-next](/docs/components-block-next-info-tile--documentatie)",
+            "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#info-tile)"
         }
     },
     "components-block-infoblock": {
@@ -280,6 +309,32 @@
             "wcag": "FLUX-735",
             "jiraMeta": "FLUX-17",
             "dv": { "idea": "DS-144", "name": "Modal/Dialog", "status": "Ontwerpen" }
+        },
+        "evolution": {
+            "vStatus": "v2-replace",
+            "legacyText": "vl-modal",
+            "nextText": "[vl-modal-next](/docs/components-block-next-modal--documentatie)",
+            "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#modal)"
+        }
+    },
+    "components-block-next-modal": {
+        "name": "modal-next",
+        "docs": "components-block-next-modal--documentatie",
+        "condition": {
+            "base": "LitElement",
+            "generation": "v3-next",
+            "css": "govflanders",
+            "tests": ["Component", "Storybook"],
+            "documentation": "uitgebreid",
+            "wcag": "TODO",
+            "jiraMeta": "FLUX-17",
+            "dv": { "idea": "DS-144", "name": "Modal/Dialog", "status": "Ontwerpen" }
+        },
+        "evolution": {
+            "vStatus": "v2-next",
+            "legacyText": "[vl-modal](/docs/components-block-modal--documentatie)",
+            "nextText": "vl-modal-next",
+            "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#modal)"
         }
     },
     "components-block-pager": {
@@ -503,6 +558,46 @@
             "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#side-navigation)"
         }
     },
+    "components-block-next-accordion": {
+        "name": "accordion-next",
+        "docs": "components-block-next-accordion--documentatie",
+        "condition": {
+            "base": "LitElement",
+            "generation": "v3-next",
+            "css": "Flux",
+            "tests": ["Component", "Storybook"],
+            "documentation": "uitgebreid",
+            "wcag": "FLUX-205",
+            "jiraMeta": "FLUX-21",
+            "dv": { "idea": "DS-134", "name": "Collapsible (FKA accordion)", "status": "Productie" }
+        },
+        "evolution": {
+            "vStatus": "v2-next",
+            "legacyText": "[vl-accordion](/docs/components-block-accordion--documentatie)",
+            "nextText": "vl-accordion-next",
+            "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#accordion)"
+        }
+    },
+    "components-block-next-info-tile": {
+        "name": "info-tile-next",
+        "docs": "components-block-next-info-tile--documentatie",
+        "condition": {
+            "base": "LitElement",
+            "generation": "v3-next",
+            "css": "Flux",
+            "tests": ["Component", "Storybook"],
+            "documentation": "uitgebreid",
+            "wcag": "FLUX-731",
+            "jiraMeta": "FLUX-97",
+            "dv": { "idea": "DS-130", "name": "Card", "status": "Spec" }
+        },
+        "evolution": {
+            "vStatus": "v2-next",
+            "legacyText": "[vl-info-tile](/docs/components-block-info-tile--documentatie)",
+            "nextText": "vl-info-tile-next",
+            "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#info-tile)"
+        }
+    },
     "components-block-next-side-navigation": {
         "name": "side-navigation-next",
         "docs": "components-block-next-side-navigation--documentatie",
@@ -516,7 +611,7 @@
             "jiraMeta": "FLUX-18"
         },
         "evolution": {
-            "vStatus": "v3-next",
+            "vStatus": "v2-next",
             "legacyText": "[vl-side-navigation](/docs/components-block-side-navigation--documentatie)",
             "nextText": "vl-side-navigation-next",
             "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#side-navigation)"
@@ -535,7 +630,7 @@
             "jiraMeta": "FLUX-18"
         },
         "evolution": {
-            "vStatus": "v3-next",
+            "vStatus": "v2-next",
             "legacyText": "[vl-side-navigation](/docs/components-block-side-navigation--documentatie)",
             "nextText": "vl-side-navigation-layout-next",
             "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#side-navigation)"
@@ -609,6 +704,11 @@
             "dv": { "idea": "DS-74", "name": "Table", "status": "Gepubliceerd" }
         }
     },
+    "components-block-tabs": {
+        "evolution": {
+            "vStatus": "v2-replace"
+        }
+    },
     "components-block-tabs-tabs": {
         "name": "tabs",
         "docs": "components-block-tabs-tabs--documentatie",
@@ -620,6 +720,12 @@
             "documentation": "basis",
             "wcag": "n.v.t.",
             "jiraMeta": "FLUX-16"
+        },
+        "evolution": {
+            "vStatus": "v2-replace",
+            "legacyText": "vl-tabs",
+            "nextText": "[vl-tabs-next](/docs/components-block-next-tabs--documentatie)",
+            "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#tabs)"
         }
     },
     "components-block-tabs-tabs-pane": {
@@ -633,6 +739,12 @@
             "documentation": "template",
             "wcag": "n.v.t.",
             "jiraMeta": "FLUX-16"
+        },
+        "evolution": {
+            "vStatus": "v2-replace",
+            "legacyText": "vl-tabs-pane",
+            "nextText": "[vl-tab-next en vl-tab-panel-next](/docs/components-block-next-tabs--documentatie)",
+            "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#tabs)"
         }
     },
     "components-block-next-tabs": {
@@ -652,7 +764,7 @@
             ]
         },
         "evolution": {
-            "vStatus": "v3-next",
+            "vStatus": "v2-next",
             "legacyText": "[vl-tabs](/docs/components-block-tabs-tabs--documentatie)",
             "nextText": "vl-tabs-next",
             "planningInfo": "[Van v2 naar v3 - beschikbaar](/docs/planning-van-v2-naar-v3-beschikbaar--documentatie#tabs)"

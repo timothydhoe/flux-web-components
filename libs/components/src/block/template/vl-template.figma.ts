@@ -1,6 +1,7 @@
 // url=https://www.figma.com/design/XgxaEcbNFkGbWW5FkCnEQo/FLUX-Web-Componenten?node-id=563-50953
 // source=libs/components/src/block/template/vl-template.component.ts
 // component=VlTemplate
+// code-only vl-template: v-stretch
 import figma from 'figma';
 
 const instance = figma.selectedInstance;
@@ -21,13 +22,13 @@ const variant: { vCenter?: boolean } =
 // De Figma-`slot` is de pagina-inhoud en komt overeen met de `main`-slot.
 // De geneste header- en footer-instances zijn geen properties van dit component;
 // in code zijn dat vl-header-next en vl-footer-next in de slots `header` en `footer`.
-// De skip link van de header verwijst naar de main content; die koppeling zit niet in Figma.
+// `skip-to-content-id` (id van de eerste heading van de pagina-inhoud, WCAG 2.4.1) zit niet in Figma en blijft leeg.
 const slot = instance.getSlot('slot');
 
 export default {
     example: figma.code`<vl-template${variant.vCenter ? ' v-center' : ''}>
-    <vl-header-next slot="header" identifier="" skip-to-content-id="main-content"></vl-header-next>
-    <div id="main-content" slot="main">
+    <vl-header-next slot="header" identifier="" skip-to-content-id=""></vl-header-next>
+    <div slot="main">
         ${slot}
     </div>
     <vl-footer-next slot="footer" identifier=""></vl-footer-next>

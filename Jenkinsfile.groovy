@@ -30,8 +30,8 @@ spec:
           name: js-settings
       resources:
         requests:
-          memory: "3500Mi"
-          cpu: "2"
+          memory: "1Gi"
+          cpu: "200m"
         limits:
           memory: "8Gi"
   volumes:
@@ -74,6 +74,10 @@ pipeline {
             inheritFrom 'jenkins-jenkins-agent'
             yaml podBuilder.from([buildPod(), trivy])
         }
+    }
+    options {
+        timeout(time: 2, unit: 'HOURS')
+        parallelsAlwaysFailFast()
     }
     parameters {
         booleanParam(
@@ -321,6 +325,11 @@ pipeline {
                                     passwordVariable: 'GITHUB_TOKEN')]) {
                                 sh './resources/ci-jenkins/bash/release-and-publish.sh'
                             }
+                            script {
+                                // release-and-publish.sh schrijft build/release-version enkel wanneer semantic-release
+                                // een nieuwe versie maakte; zonder nieuwe versie is er niets gepubliceerd om te verifiëren.
+                                env.NEW_RELEASE = fileExists('build/release-version') ? 'true' : 'false'
+                            }
                             // Opnieuw stashen, want verify-release draait in een eigen pod en heeft de build/dist
                             // nodig zoals die er na deze stage uitziet: 'libs:pack' schrijft het versienummer in de
                             // libs package.json en de fat-lib is hernoemd naar domg-wc-compliance-<versie>.min.js.
@@ -339,9 +348,10 @@ pipeline {
                 }
                 stage('Verify release') {
                     // beforeAgent: anders wordt de pod toch opgestart op branches waar deze stage niets doet.
+                    // NEW_RELEASE: enkel wanneer release-and-publish effectief een nieuwe versie publiceerde.
                     when {
                         beforeAgent true
-                        expression { env.BRANCH_NAME ==~ /.*(develop|bugfix|release).*/ }
+                        expression { env.BRANCH_NAME ==~ /.*(develop|bugfix|release).*/ && env.NEW_RELEASE == 'true' }
                     }
                     // Een eigen agent, en dus een eigen pod met een verse workspace.
                     // Doel: verify-release moet aantonen dat de gepubliceerde packages werken zoals bij een externe afnemer.

@@ -1,27 +1,30 @@
 // url=https://www.figma.com/design/XgxaEcbNFkGbWW5FkCnEQo/FLUX-Web-Componenten?node-id=876-160
 // source=libs/components/src/block/upload-progress/vl-upload-progress.component.ts
 // component=VlUploadProgressComponent
+// code-only vl-upload-progress: label, progress
 import figma from 'figma';
+import { booleanProperty } from '../../../../../resources/code-connect/boolean-property';
 import { escapeHtml } from '../../../../../resources/code-connect/escape-html';
 
 const instance = figma.selectedInstance;
 
 // De as `State` codeert de status; in code zijn dat de boolean attributen indeterminate, error en success.
-// De error-variant toont in Figma een retry- en een annuleer-knop (geneste vl-buttons zonder property);
-// in code zijn dat de attributen `retryable` en `cancellable`.
 const state: {
     indeterminate?: boolean;
     error?: boolean;
-    retryable?: boolean;
-    cancellable?: boolean;
     success?: boolean;
 } =
     instance.getEnum('State', {
         default: {},
         indeterminate: { indeterminate: true },
-        error: { error: true, retryable: true, cancellable: true },
+        error: { error: true },
         success: { success: true },
     }) ?? {};
+
+// De booleans `retryable` en `cancellable` tonen de knoppen opnieuw proberen en annuleren, in elke State.
+// Een oudere library zonder de booleans toonde beide knoppen enkel in de error-variant.
+const retryable = booleanProperty(instance, 'retryable', state.error === true);
+const cancellable = booleanProperty(instance, 'cancellable', state.error === true);
 
 // Bestandsnaam en -grootte zitten in de geneste vl-text instances (variant default → filename,
 // variant annotation → filesize, in Figma tussen haakjes). Enkel uitgeschreven als ze afwijken van de default.
@@ -46,7 +49,11 @@ const filesizeDefault = '123 MB';
 const messageText = instance.findText('message');
 const message = messageText && messageText.type === 'TEXT' ? escapeHtml(messageText.textContent) : '';
 
-// Bewust niet gemapt: `progress`, `label` en `hide-progress` hebben geen Figma-equivalent;
+// De boolean `progress` toont de voortgangsbalk; uit is `hide-progress`. Een oudere library zonder de boolean toonde
+// de balk altijd.
+const progress = booleanProperty(instance, 'progress', true);
+
+// Bewust niet gemapt: `progress` (de waarde) en `label` hebben geen Figma-equivalent;
 // de geneste vl-icon en vl-progress-bar worden in code door het component zelf bepaald.
 
 export default {
@@ -54,9 +61,9 @@ export default {
         filename && filename !== filenameDefault ? ` filename="${filename}"` : ''
     }${filesize && filesize !== filesizeDefault ? ` filesize="${filesize}"` : ''}${
         state.indeterminate ? ' indeterminate' : ''
-    }${state.error ? ' error' : ''}${state.success ? ' success' : ''}${state.retryable ? ' retryable' : ''}${
-        state.cancellable ? ' cancellable' : ''
-    }${message ? ` message="${message}"` : ''}></vl-upload-progress>`,
+    }${state.error ? ' error' : ''}${state.success ? ' success' : ''}${retryable ? ' retryable' : ''}${
+        cancellable ? ' cancellable' : ''
+    }${progress ? '' : ' hide-progress'}${message ? ` message="${message}"` : ''}></vl-upload-progress>`,
     id: 'vl-upload-progress',
     metadata: { nestable: true },
 };

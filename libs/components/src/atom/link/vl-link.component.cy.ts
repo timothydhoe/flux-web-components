@@ -4,6 +4,15 @@ import { VlLinkComponent } from './vl-link.component';
 
 registerWebComponents([VlLinkComponent]);
 
+const ariaCurrentValues = ['page', 'step', 'location', 'date', 'time', 'true', 'false'];
+
+// Roept focus() aan op de vl-link zelf, zoals een consumer dat doet, niet op de interne link of knop. Wacht eerst op de
+// eerste render: daarvoor is er nog geen intern element om de focus aan door te geven.
+const callFocusOnHost = (innerElement: 'a' | 'button') => {
+    cy.get('vl-link').shadow().find(innerElement).should('exist');
+    cy.get('vl-link').then(($host) => $host[0].focus());
+};
+
 describe('cypress-component - atom components - vl-link', () => {
     it('should mount', () => {
         cy.mount(html`<vl-link></vl-link>`);
@@ -121,9 +130,79 @@ describe('cypress-component - atom components - vl-link', () => {
     });
 
     it('should set aria-label', () => {
-        cy.mount(html`<vl-link label="link naar Vlaanderen">Vlaanderen</vl-link>`);
+        cy.mount(html`<vl-link label="Lees meer over toegankelijkheid">Lees meer</vl-link>`);
 
-        cy.get('vl-link').shadow().find('a').should('have.attr', 'aria-label', 'link naar Vlaanderen');
+        cy.get('vl-link').shadow().find('a').should('have.attr', 'aria-label', 'Lees meer over toegankelijkheid');
+    });
+
+    it('should be accessible when the label contains the visible text (label in name)', () => {
+        cy.mount(
+            html`<vl-link href="https://www.vlaanderen.be" external label="Lees meer (opent in een nieuw venster)"
+                >Lees meer</vl-link
+            >`
+        );
+        cy.injectAxe();
+
+        cy.checkA11y('vl-link', { runOnly: { type: 'rule', values: ['label-content-name-mismatch'] } });
+    });
+
+    it('should forward aria-current to the link for every valid value', () => {
+        cy.mount(
+            html`${ariaCurrentValues.map((value) => html`<vl-link href="/codes" aria-current=${value}>Codes</vl-link>`)}`
+        );
+
+        ariaCurrentValues.forEach((value, index) => {
+            cy.get('vl-link').eq(index).should('have.attr', 'aria-current', value);
+            cy.get('vl-link').eq(index).shadow().find('a').should('have.attr', 'aria-current', value);
+        });
+    });
+
+    it('should not set aria-current on the link when absent', () => {
+        cy.mount(html`<vl-link href="/codes">Codes</vl-link>`);
+
+        cy.get('vl-link').shadow().find('a').should('not.have.attr', 'aria-current');
+    });
+
+    it('should not set an empty aria-current on the link', () => {
+        cy.mount(html`<vl-link href="/codes" aria-current="">Codes</vl-link>`);
+
+        cy.get('vl-link').shadow().find('a').should('not.have.attr', 'aria-current');
+    });
+
+    it('should follow aria-current changes after the first render', () => {
+        cy.mount(html`<vl-link href="/codes">Codes</vl-link>`);
+        cy.get('vl-link').shadow().find('a').should('not.have.attr', 'aria-current');
+
+        ariaCurrentValues.forEach((value) => {
+            cy.get('vl-link').invoke('attr', 'aria-current', value);
+            cy.get('vl-link').shadow().find('a').should('have.attr', 'aria-current', value);
+        });
+
+        cy.get('vl-link').invoke('removeAttr', 'aria-current');
+        cy.get('vl-link').shadow().find('a').should('not.have.attr', 'aria-current');
+    });
+
+    it('should reflect the ariaCurrent property to the host and the link', () => {
+        cy.mount(html`<vl-link href="/codes">Codes</vl-link>`);
+
+        cy.get('vl-link').then(($link) => {
+            $link[0].ariaCurrent = 'page';
+        });
+        cy.get('vl-link').should('have.attr', 'aria-current', 'page');
+        cy.get('vl-link').shadow().find('a').should('have.attr', 'aria-current', 'page');
+
+        cy.get('vl-link').then(($link) => {
+            $link[0].ariaCurrent = null;
+        });
+        cy.get('vl-link').should('not.have.attr', 'aria-current');
+        cy.get('vl-link').shadow().find('a').should('not.have.attr', 'aria-current');
+    });
+
+    it('should be accessible with aria-current', () => {
+        cy.mount(html`<vl-link href="/codes" aria-current="page">Codes</vl-link>`);
+        cy.injectAxe();
+
+        cy.checkA11y('vl-link');
     });
 
     it('should set icon', () => {
@@ -179,6 +258,43 @@ describe('cypress-component - atom components - vl-link', () => {
         cy.get('vl-link').shadow().find('a').click({ force: true });
         cy.get('@vl-click').should('have.been.calledOnce');
     });
+
+    it('should focus the inner link when focus() is called on the host', () => {
+        cy.mount(html`<vl-link href="https://www.vlaanderen.be">Vlaanderen</vl-link>`);
+
+        callFocusOnHost('a');
+
+        cy.get('vl-link').shadow().find('a').should('have.focus');
+        cy.get('vl-link').should(($host) => {
+            const shadowRoot = $host[0].shadowRoot!;
+            expect(shadowRoot.activeElement).to.equal(shadowRoot.querySelector('a'));
+        });
+    });
+
+    it('should still focus the inner link via the shadow root', () => {
+        cy.mount(html`<vl-link href="https://www.vlaanderen.be">Vlaanderen</vl-link>`);
+
+        cy.get('vl-link')
+            .shadow()
+            .find('a')
+            .then(($link) => $link[0].focus());
+
+        cy.get('vl-link').shadow().find('a').should('have.focus');
+    });
+
+    it('should have a single tab stop', () => {
+        cy.mount(html`
+            <button id="before" type="button">Voor</button>
+            <vl-link href="https://www.vlaanderen.be">Vlaanderen</vl-link>
+            <button id="after" type="button">Na</button>
+        `);
+
+        cy.get('#before').focus();
+        cy.press(Cypress.Keyboard.Keys.TAB);
+        cy.get('vl-link').shadow().find('a').should('have.focus');
+        cy.press(Cypress.Keyboard.Keys.TAB);
+        cy.get('#after').should('have.focus');
+    });
 });
 
 describe('cypress-component - atom components - vl-link - button as link', () => {
@@ -196,9 +312,24 @@ describe('cypress-component - atom components - vl-link - button as link', () =>
     });
 
     it('should set aria-label', () => {
-        cy.mount(html`<vl-link button-as-link label="registreren">Registratie</vl-link>`);
+        cy.mount(html`<vl-link button-as-link label="Annuleren van de inschrijving">Annuleren</vl-link>`);
 
-        cy.get('vl-link').shadow().find('button').should('have.attr', 'aria-label', 'registreren');
+        cy.get('vl-link').shadow().find('button').should('have.attr', 'aria-label', 'Annuleren van de inschrijving');
+    });
+
+    it('should be accessible when the label contains the visible text (label in name)', () => {
+        cy.mount(html`<vl-link button-as-link label="Annuleren van de inschrijving">Annuleren</vl-link>`);
+        cy.injectAxe();
+
+        cy.checkA11y('vl-link', { runOnly: { type: 'rule', values: ['label-content-name-mismatch'] } });
+    });
+
+    it('should forward aria-current to the button and follow changes', () => {
+        cy.mount(html`<vl-link button-as-link aria-current="true">Stap 2</vl-link>`);
+        cy.get('vl-link').shadow().find('button').should('have.attr', 'aria-current', 'true');
+
+        cy.get('vl-link').invoke('removeAttr', 'aria-current');
+        cy.get('vl-link').shadow().find('button').should('not.have.attr', 'aria-current');
     });
 
     it('should set href', () => {
@@ -319,5 +450,36 @@ describe('cypress-component - atom components - vl-link - button as link', () =>
 
         cy.get('vl-link').shadow().find('button').click('bottomLeft');
         cy.get('@vl-click').should('have.been.calledOnce');
+    });
+
+    it('should focus the inner button when focus() is called on the host', () => {
+        cy.mount(html`<vl-link button-as-link>Vlaanderen</vl-link>`);
+
+        callFocusOnHost('button');
+
+        cy.get('vl-link').shadow().find('button').should('have.focus');
+        cy.get('vl-link').should(($host) => {
+            const shadowRoot = $host[0].shadowRoot!;
+            expect(shadowRoot.activeElement).to.equal(shadowRoot.querySelector('button'));
+        });
+    });
+
+    it('should visibly restore focus to the button when a dialog closes', () => {
+        cy.mount(html`
+            <vl-link id="open-dialog" button-as-link>Open dialog</vl-link>
+            <div id="dialog">
+                <button id="close-dialog" type="button">Sluiten</button>
+            </div>
+        `);
+        cy.get('#dialog').then(($dialog) => {
+            $dialog[0].addEventListener('vl-close', () => document.querySelector<HTMLElement>('#open-dialog')!.focus());
+        });
+
+        cy.get('vl-link').shadow().find('button').should('exist');
+
+        cy.get('#close-dialog').focus();
+        cy.get('#dialog').then(($dialog) => $dialog[0].dispatchEvent(new CustomEvent('vl-close')));
+
+        cy.get('vl-link').shadow().find('button').should('have.focus').and('have.css', 'outline-style', 'solid');
     });
 });

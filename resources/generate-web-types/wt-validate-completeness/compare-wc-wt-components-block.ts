@@ -13,6 +13,8 @@ const componentsBlockWCMismatch = [
     'vl-tab-panel', // in next folder - naam komt niet overeen met bestandsnaam (WT is vl-tab-panel-next)
 ];
 const componentsBlockWTMismatch = [
+    'vl-accordion-next',
+    'vl-info-tile-next',
     'vl-side-navigation-next', // in next folder - naam komt niet overeen met bestandsnaam
     'vl-side-navigation-section-next', // in next folder - naam komt niet overeen met bestandsnaam (WC is vl-side-navigation-section)
     'vl-side-navigation-layout-next', // in next folder - naam komt niet overeen met bestandsnaam (WC is vl-side-navigation-layout)
@@ -22,6 +24,7 @@ const componentsBlockWTMismatch = [
     'vl-side-navigation-h4', // in vl-side-navigation-title.componentsBlock.ts
     'vl-side-navigation-h5', // in vl-side-navigation-title.componentsBlock.ts
     'vl-side-navigation-h6', // in vl-side-navigation-title.componentsBlock.ts
+    'vl-modal-next', // in next folder - naam komt niet overeen met bestandsnaam (WC is vl-modal)
     'vl-tabs-next', // in next folder - naam komt niet overeen met bestandsnaam (WC is vl-tabs)
     'vl-tab-next', // in next folder - naam komt niet overeen met bestandsnaam (WC is vl-tab)
     'vl-tab-link-next', // in next folder - naam komt niet overeen met bestandsnaam (WC is vl-tab-link)

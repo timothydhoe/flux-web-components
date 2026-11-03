@@ -1,6 +1,7 @@
 import { accordionArgTypes } from '../../../libs/components/src/block/accordion/stories/vl-accordion.stories-arg';
 import { alertArgTypes } from '../../../libs/components/src/block/alert/stories/vl-alert.stories-arg';
 import { autocompleteArgTypes } from '../../../libs/components/src/block/autocomplete/stories/vl-autocomplete.stories-arg';
+import { badgeArgTypes } from '../../../libs/components/src/block/badge/stories/vl-badge.stories-arg';
 import { breadcrumbItemArgTypes } from '../../../libs/components/src/block/breadcrumb/stories/vl-breadcrumb-item.stories-arg';
 import { breadcrumbArgTypes } from '../../../libs/components/src/block/breadcrumb/stories/vl-breadcrumb.stories-arg';
 import { cascaderItemArgTypes } from '../../../libs/components/src/block/cascader/stories/vl-cascader-item.stories-arg';
@@ -18,6 +19,9 @@ import { infotextArgTypes } from '../../../libs/components/src/block/infotext/st
 import { inputSliderArgTypes } from '../../../libs/components/src/block/input-slider/stories/vl-input-slider.stories-arg';
 import { loaderArgTypes } from '../../../libs/components/src/block/loader/stories/vl-loader.stories-arg';
 import { modalArgTypes } from '../../../libs/components/src/block/modal/stories/vl-modal.stories-arg';
+import { accordionArgTypes as accordionNextArgTypes } from '../../../libs/components/src/block/next/accordion/stories/vl-accordion.stories-arg';
+import { infoTileArgTypes as infoTileNextArgTypes } from '../../../libs/components/src/block/next/info-tile/stories/vl-info-tile.stories-arg';
+import { modalArgTypes as modalNextArgTypes } from '../../../libs/components/src/block/next/modal/stories/vl-modal.stories-arg';
 import { sideNavigationLayoutArgTypes } from '../../../libs/components/src/block/next/side-navigation/stories/vl-side-navigation-layout.stories-arg';
 import { sideNavigationArgTypes as sideNavigationNextArgTypes } from '../../../libs/components/src/block/next/side-navigation/stories/vl-side-navigation.stories-arg';
 import { tabsArgTypes as tabsNextArgTypes } from '../../../libs/components/src/block/next/tabs/stories/vl-tabs.stories-arg';
@@ -63,6 +67,12 @@ export const buildWTConfigComponentsBlock: WTConfigArray = [
         '/docs/components-block-accordion--documentatie'
     ),
     buildWTConfig(
+        'vl-accordion-next',
+        accordionNextArgTypes,
+        '../../libs/components/src/block/next/accordion/stories/vl-accordion.stories-doc.mdx',
+        '/docs/components-block-next-accordion--documentatie'
+    ),
+    buildWTConfig(
         'vl-alert',
         alertArgTypes,
         '../../libs/components/src/block/alert/stories/vl-alert.stories-doc.mdx',
@@ -73,6 +83,12 @@ export const buildWTConfigComponentsBlock: WTConfigArray = [
         autocompleteArgTypes,
         '../../libs/components/src/block/autocomplete/stories/vl-autocomplete.stories-doc.mdx',
         '/docs/components-block-autocomplete--documentatie'
+    ),
+    buildWTConfig(
+        'vl-badge',
+        badgeArgTypes,
+        '../../libs/components/src/block/badge/stories/vl-badge.stories-doc.mdx',
+        '/docs/components-block-badge--documentatie'
     ),
     buildWTConfig(
         'vl-breadcrumb',
@@ -128,6 +144,12 @@ export const buildWTConfigComponentsBlock: WTConfigArray = [
         infoTileArgTypes,
         '../../libs/components/src/block/info-tile/stories/vl-info-tile.stories-doc.mdx',
         '/docs/components-block-info-tile--documentatie'
+    ),
+    buildWTConfig(
+        'vl-info-tile-next',
+        infoTileNextArgTypes,
+        '../../libs/components/src/block/next/info-tile/stories/vl-info-tile.stories-doc.mdx',
+        '/docs/components-block-next-info-tile--documentatie'
     ),
     buildWTConfig('vl-infoblock', infoblockArgTypes, null, '/docs/components-block-infoblock--documentatie'),
     buildWTConfig(
@@ -308,6 +330,12 @@ export const buildWTConfigComponentsBlock: WTConfigArray = [
         tabsArgTypes,
         '../../libs/components/src/block/tabs/stories/vl-tabs.stories-doc.mdx',
         '/docs/components-block-tabs-tabs--documentatie'
+    ),
+    buildWTConfig(
+        'vl-modal-next',
+        modalNextArgTypes,
+        '../../libs/components/src/block/next/modal/stories/vl-modal.stories-doc.mdx',
+        '/docs/components-block-next-modal--documentatie'
     ),
     buildWTConfig(
         'vl-tabs-next',
