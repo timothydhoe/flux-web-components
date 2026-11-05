@@ -1,0 +1,54 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataReadingGuideStories from './vl-data-reading-guide.stories';
+
+# Data reading guide
+
+<FluxComponentMetaData id="data-visualisation-data-reading-guide" />
+
+## Doel
+
+De `data-reading-guide` component toont "Hoe lees je deze grafiek?", uitklapbaar onder de grafiek van een
+[data-figure](/docs/data-visualisation-data-figure--documentatie). Leg er uit wat niet vanzelf spreekt: wat een lijn
+is, wat hoog of laag betekent, waarom een lijn onderbroken is.
+
+Alleen jij weet wat de lezer bij deze grafiek moet weten; daarom is er geen standaardtekst. Zonder inhoud blijft het
+blok weg.
+
+## Voorbeeld
+
+```js
+import { VlDataReadingGuide } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-chart-line></vl-chart-line>
+    <vl-data-reading-guide>
+        <p>Elke lijn is een meetpunt. Hoe hoger de lijn, hoe meer stof er dat jaar in de lucht zat.</p>
+    </vl-data-reading-guide>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataReadingGuideStories.DataReadingGuideDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataReadingGuideStories.DataReadingGuideDefault} />
+
+De leeswijzer staat bij de uitleg, na de tabel. Zet je zelf een `vl-data-table` in de figuur, dan bepaalt de volgorde
+van je tags wat eerst komt.
+
+## Varianten
+
+### Uitleg bij een gat
+
+Een onderbroken lijn is voor veel lezers niet vanzelfsprekend. Zeg wat ze betekent.
+
+<Canvas of={VlDataReadingGuideStories.DataReadingGuideWithGap} />
+
+## Toegankelijkheid
+
+- Schrijf in korte zinnen en gewone woorden; de leeswijzer is er voor wie de grafiek niet meteen begrijpt.
+- Verwijs niet alleen naar een kleur ("de blauwe lijn"): noem de reeks bij haar naam, zoals ze aan het einde van de
+  lijn staat.

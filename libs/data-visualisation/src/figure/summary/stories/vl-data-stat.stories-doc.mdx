@@ -1,0 +1,66 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataStatStories from './vl-data-stat.stories';
+
+# Data stat
+
+<FluxComponentMetaData id="data-visualisation-data-stat" />
+
+## Doel
+
+De `data-stat` component toont één samengevatte waarde van een reeks groot: de hoogste, de laagste of het gemiddelde,
+met de eenheid. Eronder staat waar die waarde over gaat: bij de hoogste en laagste wanneer ze gemeten is, bij het
+gemiddelde over welke periode.
+
+Gebruik ze voor het getal waar de tekst bij de grafiek over gaat, bv. "Vandaag lag de veldsterkte nooit hoger dan
+0,42 µT". Voor de laatste waarde is er [data-latest](/docs/data-visualisation-data-latest--documentatie).
+
+## Voorbeeld
+
+```js
+import { VlDataStat } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In 2019 lag de concentratie in Gent het hoogst</h3>
+    <vl-data-stat statistic="max" series="Meetpunt Gent"></vl-data-stat>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataStatStories.DataStatDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataStatStories.DataStatDefault} />
+
+- Gaten (`NaN`) tellen niet mee, ook niet in het gemiddelde.
+- Komt de hoogste of laagste waarde meer dan eens voor, dan staat de eerste keer eronder.
+- De waarde heeft evenveel decimalen als de grafiek, zodat tegel en tooltip hetzelfde zeggen.
+
+## Varianten
+
+### Rij boven de figuur
+
+In een `vl-data-source` lezen de tegels dezelfde data als de grafiek, voor dezelfde periode. Kiest de lezer een andere
+periode, dan volgen alle tegels mee. Houd de rij kort: drie of vier getallen.
+
+```html
+<vl-data-source src="/api/elf/sensors/ELF_L_0004" period="24h">
+    <vl-data-period></vl-data-period>
+    <vl-data-latest></vl-data-latest>
+    <vl-data-stat statistic="max"></vl-data-stat>
+    <vl-data-stat statistic="mean"></vl-data-stat>
+    <vl-data-figure>
+        <h3 slot="headline">Magnetische veldsterkte</h3>
+        <vl-chart-line></vl-chart-line>
+    </vl-data-figure>
+</vl-data-source>
+```
+
+<Canvas of={VlDataStatStories.DataStatRow} />
+
+## Toegankelijkheid
+
+- Label, waarde met eenheid en wanneer zijn gewone tekst, in de volgorde waarin je ze leest.
+- Zolang de data laadt, houdt de tegel haar plaats maar is ze onzichtbaar en verborgen voor een schermlezer.

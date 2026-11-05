@@ -1,0 +1,83 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataFigureStories from './vl-data-figure.stories';
+
+# Data figure
+
+<FluxComponentMetaData id="data-visualisation-data-figure" />
+
+## Doel
+
+Gebruik de `data-figure` component rond elke grafiek op een pagina. De figuur houdt de grafiek samen met wat de
+lezer nodig heeft om ze te begrijpen: een kop die zegt wat er te zien is, controls, een tabel met dezelfde cijfers
+en uitleg. Elke figuur heeft dezelfde opbouw, zodat de lezer overal weet waar wat staat.
+
+## Voorbeeld
+
+```js
+import { VlChartLine, VlDataFigure } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <p slot="subtitle">Jaargemiddelde per meetpunt, twee meetpunten, 2018-2024</p>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataFigureStories.DataFigureDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataFigureStories.DataFigureDefault} />
+
+## Opbouw
+
+Van boven naar onder, altijd in deze volgorde:
+
+1. **Kop en controls.** Kop en ondertitel links, de controls rechts. Past het niet, dan schuiven de controls onder
+   de kop. Standaard staan er twee knoppen: de grafiek als PNG bewaren en vergroten.
+2. **Visual.** De grafiek en wat er direct bij hoort, zoals de laatste meting.
+3. **Uitleg.** Altijd "Bekijk de cijfers" (de tabel, met de CSV), dan wat je zelf toevoegt, zoals een leeswijzer.
+   "Over deze data" staat er standaard alleen als de data uitleg bij de eenheid heeft (`meta.y.unitInfo`).
+
+Onderdelen van Flux (`vl-data-*`) zetten zichzelf in hun zone; je hoeft er geen `slot` op te zetten. Binnen een zone
+telt de volgorde van je tags. Een eigen `vl-data-controls`, `vl-data-table` of `vl-data-about` vervangt het
+standaardonderdeel.
+
+## Varianten
+
+### Volledig
+
+Met een control om een reeks uit te lichten, de laatste meting boven de grafiek, een leeswijzer en "Over deze data".
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">Sinds 2019 daalt de concentratie in Gent elk jaar</h3>
+    <p slot="subtitle">Jaargemiddelde per meetpunt, twee meetpunten, 2018-2024</p>
+    <vl-data-highlight></vl-data-highlight>
+    <vl-data-latest series="Meetpunt Gent" label="Laatste jaargemiddelde"></vl-data-latest>
+    <vl-chart-line></vl-chart-line>
+    <vl-data-reading-guide>
+        <p>Elke lijn is een meetpunt. Hoe hoger de lijn, hoe meer stof er dat jaar in de lucht zat.</p>
+    </vl-data-reading-guide>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataFigureStories.DataFigureComplete} />
+
+### Zonder kop
+
+Zonder kop en ondertitel blijft er geen lege ruimte boven de grafiek. Gebruik dit alleen als de tekst rond de figuur
+al zegt wat ze toont, bv. in een tegel met een eigen titel.
+
+<Canvas of={VlDataFigureStories.DataFigureWithoutCaption} />
+
+## Toegankelijkheid
+
+- De figuur is een HTML `<figure>`; kop en ondertitel vormen samen het onderschrift.
+- Kies zelf het niveau van de kop, zodat het past in de structuur van de pagina. De figuur geeft elke heading
+  dezelfde stijl.
+- De tabel kan je niet weglaten: ze is het tekstalternatief van de grafiek (WCAG 1.1.1).
+- De knoppen hebben alleen een icoon; hun naam ("Download grafiek (PNG)", "Grafiek vergroten") lees je in de tooltip
+  en hoort een schermlezer.

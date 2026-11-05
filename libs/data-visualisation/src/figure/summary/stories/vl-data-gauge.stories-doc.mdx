@@ -1,0 +1,55 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataGaugeStories from './vl-data-gauge.stories';
+
+# Data gauge
+
+<FluxComponentMetaData id="data-visualisation-data-gauge" />
+
+## Doel
+
+De `data-gauge` component toont de laatste waarde groot, met een meter die laat zien hoe ze zich verhoudt tot een norm
+of streefwaarde. Eronder staat in woorden of de waarde erboven of eronder ligt, bv. "Onder Voorzorgswaarde (0,4 µT)".
+
+Gebruik ze als de vraag van de lezer is "zit dit goed?". Zonder norm vertelt een meter weinig meer dan het getal:
+gebruik dan [data-latest](/docs/data-visualisation-data-latest--documentatie).
+
+## Voorbeeld
+
+```js
+import { VlDataGauge } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-source src="/api/elf/sensors/ELF_L_0004" period="24h">
+    <vl-data-gauge>
+        <vl-chart-reference value="0.4" label="Voorzorgswaarde"></vl-chart-reference>
+    </vl-data-gauge>
+</vl-data-source>
+```
+
+<Canvas of={VlDataGaugeStories.DataGaugeDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataGaugeStories.DataGaugeDefault} />
+
+- De normen zijn dezelfde `vl-chart-reference`-tags als in een grafiek. Meer dan één kan, maar houd het bij één of
+  twee: elke norm is een streep op de meter en een zin eronder.
+- De meter loopt van 0 tot `max`. Zonder `max` loopt hij tot een rond getal boven de waarde en de normen, zoals de
+  waarde-as van een grafiek: een norm buiten de meter vertelt niets. Kies zelf `max` als de meter op meer pagina's
+  dezelfde schaal moet hebben.
+- Boven of onder een norm verandert de kleur niet: niet elke norm is een grens die je niet mag overschrijden.
+
+## Varianten
+
+### Als tegel naast de figuur
+
+Met dezelfde norm in de grafiek ziet de lezer de stand van nu én het verloop.
+
+<Canvas of={VlDataGaugeStories.DataGaugeAsTile} />
+
+## Toegankelijkheid
+
+- De meter heeft `role="meter"`, met het label als naam en de waarde met eenheid als `aria-valuetext`.
+- Of de waarde boven of onder een norm ligt, staat er in woorden; de lengte van de balk alleen zegt het nooit.
+- Zolang de data laadt, houdt de tegel haar plaats maar is ze onzichtbaar en verborgen voor een schermlezer.

@@ -1,0 +1,55 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataAboutStories from './vl-data-about.stories';
+
+# Data about
+
+<FluxComponentMetaData id="data-visualisation-data-about" />
+
+## Doel
+
+De `data-about` component toont "Over deze data", uitklapbaar onder de grafiek van een
+[data-figure](/docs/data-visualisation-data-figure--documentatie): wat de lezer moet weten om de cijfers juist te
+lezen. Bron, eenheid en open data komen uit het datacontract (`meta`), zodat je ze niet overtypt. Wat je zelf in de
+tag schrijft, komt eronder.
+
+## Voorbeeld
+
+```js
+import { VlDataAbout } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-chart-line></vl-chart-line>
+    <vl-data-about>
+        <p>De meetpunten staan langs drukke wegen; ze tonen dus de hoogste concentraties in de stad.</p>
+    </vl-data-about>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataAboutStories.DataAboutDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataAboutStories.DataAboutDefault} />
+
+Uit `meta` komen:
+
+- **Bron**: `source`, met een link als er een `sourceHref` is.
+- **Eenheid**: `y.unit`, met de uitleg uit `y.unitInfo`, bv. "µg/m³: microgram per kubieke meter lucht".
+- **Open data**: als `isOpenData` aan staat, met een link naar Vlaamse Open Data.
+
+## Varianten
+
+### Standaard in de figuur
+
+Zonder eigen `vl-data-about` toont de figuur het blok zelf, maar alleen als het meer vertelt dan de bronregel onder
+de grafiek: als de eenheid uitleg heeft (`meta.y.unitInfo`). Anders zou het alleen herhalen en blijft het weg.
+
+<Canvas of={VlDataAboutStories.DataAboutFromMeta} />
+
+## Toegankelijkheid
+
+- Bron, eenheid en open data staan in een lijst van termen (`<dl>`): een schermlezer leest bij elke uitleg de term
+  voor.

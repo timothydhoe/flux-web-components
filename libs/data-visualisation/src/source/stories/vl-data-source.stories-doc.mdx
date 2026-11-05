@@ -1,0 +1,81 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataSourceStories from './vl-data-source.stories';
+
+# Data source
+
+<FluxComponentMetaData id="data-visualisation-data-source" />
+
+## Doel
+
+De `data-source` component haalt de data van één bron op, voor één periode, en deelt ze met alle grafieken, tegels en
+controls erin. Zo tonen een grafiek en de laatste meting ernaast altijd dezelfde periode, en haalt de pagina de data
+maar één keer op.
+
+Een grafiek zonder eigen `.data` tekent de data van de dichtstbijzijnde bron. Met een
+[data-period](/docs/data-visualisation-data-period--documentatie) erin kiest de lezer zelf de periode. De bron tekent
+zelf niets.
+
+## Voorbeeld
+
+```js
+import { VlChartLine, VlDataFigure, VlDataPeriod, VlDataSource } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-source src="/api/elf/sensors/ELF_L_0004" period="24h">
+    <vl-data-period></vl-data-period>
+    <vl-data-figure>
+        <h3 slot="headline">Magnetische veldsterkte</h3>
+        <vl-chart-line></vl-chart-line>
+    </vl-data-figure>
+</vl-data-source>
+```
+
+<Canvas of={VlDataSourceStories.DataSourceDefault} />
+
+De data in deze stories komt van een mock-API met een gesimuleerde ELF-sensor (magnetisch veld langs een
+hoogspanningslijn).
+
+## Configuratie
+
+<ArgTypes of={VlDataSourceStories.DataSourceDefault} />
+
+## Wat de bron moet antwoorden
+
+Standaard verwacht de bron het `ChartModel` in JSON. JSON kent geen `NaN`: een gat is `null`. Een tijd is ISO
+8601-tekst of milliseconden.
+
+```json
+{
+    "meta": {
+        "source": "Departement Omgeving",
+        "x": { "type": "time" },
+        "y": { "type": "number", "title": "Magnetische veldsterkte", "unit": "µT" }
+    },
+    "series": [{ "name": "Temse", "x": ["2026-11-04T09:00:00+01:00", "2026-11-04T09:10:00+01:00"], "y": [0.298, null] }]
+}
+```
+
+Heeft je bron een andere vorm of vraagt ze de periode anders, geef dan een eigen `adapter` of `buildUrl`:
+
+```js
+const source = document.querySelector('vl-data-source');
+source.adapter = (input) => ({ meta: { ... }, series: input.observations.map(...) });
+source.buildUrl = (src, { from, to }) => `${src}/${from.toISOString()}/${to.toISOString()}`;
+```
+
+Kiest de lezer snel na elkaar twee periodes, dan breekt de bron de eerste vraag af: een traag antwoord overschrijft
+nooit een nieuwere periode.
+
+## Varianten
+
+### Bron niet bereikbaar
+
+Antwoordt de bron niet, of met een fout, dan toont elke grafiek in de bron een melding in plaats van een lege grafiek.
+
+<Canvas of={VlDataSourceStories.DataSourceUnavailable} />
+
+## Toegankelijkheid
+
+- Zolang de data laadt, toont de grafiek dat; tegels en controls houden hun plaats, zodat er niets verspringt.
+- Een fout staat in een Flux alert, als tekst bij de grafiek.

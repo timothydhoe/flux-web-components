@@ -1,0 +1,58 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataDownloadStories from './vl-data-download.stories';
+
+# Data download
+
+<FluxComponentMetaData id="data-visualisation-data-download" />
+
+## Doel
+
+Met de `data-download` component bewaart de lezer de grafiek van een
+[data-figure](/docs/data-visualisation-data-figure--documentatie) als bestand:
+
+- `png`: de grafiek zoals ze er staat, met de kop erboven en eenheid en bron erbij, om te delen of in een verslag
+  te zetten. Zo blijft ze ook los van de pagina eerlijk.
+- `csv`: de cijfers achter de grafiek, onafgerond, om verder mee te rekenen.
+
+De bestandsnaam is de kop van de figuur, bv. `In Gent en Antwerpen daalt de concentratie sinds 2020.png`; zonder
+kop `grafiek.png`.
+
+Elke figuur toont standaard al de PNG-knop naast de kop, en de CSV-link bij de tabel. Zet deze component zelf in een
+[data-controls](/docs/data-visualisation-data-controls--documentatie) als je andere knoppen of een andere volgorde
+wil.
+
+## Voorbeeld
+
+```js
+import { VlDataControls, VlDataDownload } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-data-controls>
+        <vl-data-download format="png"></vl-data-download>
+    </vl-data-controls>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataDownloadStories.DataDownloadDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataDownloadStories.DataDownloadDefault} />
+
+## Varianten
+
+### CSV
+
+Met een eigen icoon, zodat PNG en CSV naast elkaar te onderscheiden zijn zonder de tooltip.
+
+<Canvas of={VlDataDownloadStories.DataDownloadCsv} />
+
+## Toegankelijkheid
+
+- Met alleen een icoon heeft de knop toch een naam, "Download grafiek (PNG)" of "Download cijfers (CSV)": die toont
+  de tooltip en die hoort een schermlezer. Het formaat staat in de naam, zodat vooraf duidelijk is wat je krijgt.
+- Zolang de grafiek laadt, is de knop onzichtbaar en niet te bedienen; hij houdt wel zijn plaats.

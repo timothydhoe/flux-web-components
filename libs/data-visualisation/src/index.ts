@@ -1,0 +1,35 @@
+// data-visualisation
+
+export type { ChartAxis, ChartMeta, ChartModel, ChartSeries, DataState } from './models/chart.model';
+export { validateChartModel } from './models/validate-chart-model';
+export { classifyDataState } from './models/classify-data-state';
+export { VlChart } from './chart/vl-chart.component';
+export { VlChartLine } from './chart/line/vl-chart-line.component';
+export { VlChartReference } from './chart/vl-chart-reference.component';
+export type { ChartReference } from './layout/reference-lines';
+export { DATA_CHANGE_EVENT } from './events/data-change.event';
+export { PERIOD_CHANGE_EVENT } from './events/period-change.event';
+export { VlDataSource } from './source/vl-data-source.component';
+export { VlDataPeriod } from './source/vl-data-period.component';
+export { sourceContext, type SourceState } from './source/source-context';
+export { adaptChartJson, type ChartJson, type InputAdapter } from './source/chart-json.adapter';
+export { buildRequestUrl, type RequestUrlBuilder } from './source/request-url';
+export { PERIOD_DURATIONS, type Period, type PeriodDuration, type PeriodRange } from './source/period';
+export { figureContext, type FigureState } from './figure/figure-context';
+export { VlDataFigure } from './figure/vl-data-figure.component';
+export { VlDataTable } from './figure/table/vl-data-table.component';
+export { VlDataControls } from './figure/controls/vl-data-controls.component';
+export { VlDataDownload, type DownloadFormat } from './figure/controls/vl-data-download.component';
+export { VlDataFullscreen } from './figure/controls/vl-data-fullscreen.component';
+export { VlDataHighlight } from './figure/controls/vl-data-highlight.component';
+export { VlDataLatest } from './figure/summary/vl-data-latest.component';
+export { findLatestValue, type LatestValue } from './figure/summary/latest-value';
+export { VlDataStat } from './figure/summary/vl-data-stat.component';
+export { findStatistic, type Statistic, type StatisticValue } from './figure/summary/statistic';
+export { VlDataGauge } from './figure/summary/vl-data-gauge.component';
+export { VlDataReadingGuide } from './figure/explanations/vl-data-reading-guide.component';
+export { VlDataAbout } from './figure/explanations/vl-data-about.component';
+export { VlDataMapBaseLayer } from './map/vl-data-map-base-layer.component';
+export { VlDataMapLayer, type DataMapLegend } from './map/vl-data-map-layer.component';
+export { VlDataMapLegend } from './map/vl-data-map-legend.component';
+export { DATA_MAP_SELECT_EVENT, type DataMapSelection } from './map/data-map.events';

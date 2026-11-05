@@ -1,0 +1,53 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as DataSourceStories from './source/stories/vl-data-source.stories';
+
+<Meta title="Data visualisation/Overzicht" />
+
+# Data visualisation
+
+Met deze componenten toon je meetdata als een grafiek die eerlijk, leesbaar en toegankelijk is: met eenheid en bron,
+een tabel als tekstalternatief, en uitleg erbij. Je bouwt een figuur op uit losse tags, zoals een HTML-pagina.
+
+<Canvas of={DataSourceStories.DataSourceDefault} />
+
+## Bouwstenen
+
+- **grafiek**: wat getekend wordt, met eenheid en bron. Referentielijnen zet je als tag in de grafiek.
+  `vl-chart-line`, `vl-chart-reference`.
+- **figuur**: houdt één grafiek samen met kop, controls, tabel en uitleg. Elk onderdeel zet zichzelf op zijn vaste
+  plaats. `vl-data-figure`, `vl-data-table`, `vl-data-about`, `vl-data-reading-guide`, `vl-data-latest`,
+  `vl-data-stat`, `vl-data-gauge`,
+  `vl-data-download`, `vl-data-fullscreen`, `vl-data-highlight`, `vl-data-controls`.
+- **bron**: haalt de data op voor één periode en deelt ze met alle grafieken en controls erin.
+  `vl-data-source`, `vl-data-period`.
+
+## Voorbeeld
+
+```js
+import { VlChartLine, VlChartReference, VlDataFigure, VlDataPeriod, VlDataSource } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-source src="/api/elf/sensors/ELF_L_0004" period="24h">
+    <vl-data-period></vl-data-period>
+    <vl-data-figure>
+        <h3 slot="headline">Magnetische veldsterkte</h3>
+        <p slot="subtitle">Temse, sensor ELF_L_0004, 380 kV</p>
+        <vl-chart-line>
+            <vl-chart-reference value="0.4" label="Voorzorgswaarde"></vl-chart-reference>
+        </vl-chart-line>
+    </vl-data-figure>
+</vl-data-source>
+```
+
+## Afspraken
+
+- **Tekst in Flux web components.** Jij kiest het niveau van de kop (`<h2>`,
+  `<h3>`) en schrijft de tekst; de figuur geeft ze de Flux-stijl.
+- **De tabel is verplicht.** Ze is het tekstalternatief van de grafiek. Een eigen `<vl-data-table>` verandert alleen
+  haar plaats.
+- **Vaste opbouw.** Van boven naar onder: kop met controls, grafiek, tabel en
+  uitleg. De volgorde van de tags telt alleen binnen een zone.
+- **Data via de bron of via `.data`.** Een grafiek zonder eigen `.data` tekent de data van de dichtstbijzijnde
+  `vl-data-source`.
+- **De waarde-as begint altijd bij 0**, en een gat in de data onderbreekt de lijn.

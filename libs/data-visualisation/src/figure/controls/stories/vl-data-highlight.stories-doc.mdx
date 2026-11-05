@@ -1,0 +1,54 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataHighlightStories from './vl-data-highlight.stories';
+
+# Data highlight
+
+<FluxComponentMetaData id="data-visualisation-data-highlight" />
+
+## Doel
+
+Met de `data-highlight` component kiest de lezer een reeks om uit te lichten: die in kleur en dikker, de andere in
+grijs. Zo volgt de lezer het verhaal van één meetpunt, zonder dat de vergelijking met de andere verdwijnt.
+
+Zet ze in een [data-figure](/docs/data-visualisation-data-figure--documentatie); ze staat dan vanzelf naast de kop.
+Met minder dan twee reeksen valt er niets uit te lichten en blijft ze weg.
+
+## Voorbeeld
+
+```js
+import { VlDataHighlight } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">Concentratie per meetpunt</h3>
+    <vl-data-highlight></vl-data-highlight>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataHighlightStories.DataHighlightDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataHighlightStories.DataHighlightDefault} />
+
+De keuze zet `highlight` op de grafiek; de lijst toont "Geen" en de naam van elke reeks.
+
+## Varianten
+
+### Vooraf gekozen
+
+Gaat de kop over één reeks, zet dan zelf `highlight` op de grafiek. De lezer ziet meteen waar de kop over gaat en
+kan nog altijd een andere reeks kiezen.
+
+```html
+<vl-chart-line highlight="Meetpunt Hasselt"></vl-chart-line>
+```
+
+<Canvas of={VlDataHighlightStories.DataHighlightPreset} />
+
+## Toegankelijkheid
+
+- Het is een gewone Flux select met een zichtbaar label ("Uitlichten"), te bedienen met het toetsenbord.
+- Uitlichten verandert alleen kleur en dikte; elke lijn houdt haar naam aan het einde, en de tabel toont alle cijfers.

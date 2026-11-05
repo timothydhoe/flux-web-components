@@ -1,0 +1,58 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataTableStories from './vl-data-table.stories';
+
+# Data table
+
+<FluxComponentMetaData id="data-visualisation-data-table" />
+
+## Doel
+
+De `data-table` component toont de cijfers achter de grafiek in een tabel, uitklapbaar onder "Bekijk de cijfers".
+Ze is het tekstalternatief van de grafiek: wie de lijnen niet kan zien of de exacte waarden wil, leest ze hier.
+Rechts staat de download van dezelfde cijfers als CSV.
+
+Elke [data-figure](/docs/data-visualisation-data-figure--documentatie) toont er standaard één, als eerste uitleg. Je
+hoeft ze dus niet zelf te zetten.
+
+## Voorbeeld
+
+```js
+import { VlDataTable } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <vl-chart-line></vl-chart-line>
+    <vl-data-table></vl-data-table>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataTableStories.DataTableDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataTableStories.DataTableDefault} />
+
+De tabel neemt alles over van de grafiek: een kolom per reeks, een rij per x-waarde, de astitel met eenheid als
+bijschrift en getallen in het Nederlands (1.250,5).
+
+## Varianten
+
+### Met gat
+
+Een gat in de data blijft een lege cel, nooit een 0. Boven de tabel staat dan wat een lege cel betekent.
+
+<Canvas of={VlDataTableStories.DataTableWithGap} />
+
+### Eigen volgorde
+
+Zet je zelf een `vl-data-table` in de figuur, dan staat die tussen de uitleggen in jouw volgorde, en laat de figuur
+de standaardtabel weg. Hier staat de leeswijzer voor de cijfers.
+
+<Canvas of={VlDataTableStories.DataTableOwnOrder} />
+
+## Toegankelijkheid
+
+- De tabel kan je niet weglaten: zonder eigen `vl-data-table` toont de figuur er zelf een (WCAG 1.1.1).
+- Kolom- en rijkoppen zijn `<th>` met `scope`, en het bijschrift is een `<caption>`: een schermlezer leest bij elke
+  cel de reeks en de x-waarde voor.

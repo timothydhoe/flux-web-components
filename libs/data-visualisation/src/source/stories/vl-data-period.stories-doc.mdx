@@ -1,0 +1,55 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataPeriodStories from './vl-data-period.stories';
+
+# Data period
+
+<FluxComponentMetaData id="data-visualisation-data-period" />
+
+## Doel
+
+Met de `data-period` component kiest de lezer welke periode de grafieken tonen: de lengte (24 uur, 7 dagen, 30 dagen
+of 1 jaar) en welke dagen, met vorige, volgende en vandaag. Verder dan vandaag gaat niet.
+
+De component hoort bij de dichtstbijzijnde [data-source](/docs/data-visualisation-data-source--documentatie): die
+haalt bij elke keuze de data van de nieuwe periode op, voor alle grafieken en tegels erin.
+
+## Voorbeeld
+
+```js
+import { VlDataPeriod, VlDataSource } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-source src="/api/elf/sensors/ELF_L_0004" period="24h">
+    <vl-data-period></vl-data-period>
+    <vl-data-figure>
+        <h3 slot="headline">Magnetische veldsterkte</h3>
+        <vl-chart-line></vl-chart-line>
+    </vl-data-figure>
+</vl-data-source>
+```
+
+<Canvas of={VlDataPeriodStories.DataPeriodDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataPeriodStories.DataPeriodDefault} />
+
+De periode waarmee de pagina opent, zet je op de bron: `period` en `end` van `vl-data-source`.
+
+## Varianten
+
+### In de figuur
+
+Hoort de periode bij één figuur, zet ze dan in die figuur: ze staat dan naast de kop, bij de andere controls. Staat
+ze boven de figuur, dan geldt ze voor alles in de bron, bv. ook voor een tegel ernaast.
+
+<Canvas of={VlDataPeriodStories.DataPeriodInFigure} />
+
+## Toegankelijkheid
+
+- De lengtes zijn een groep radioknoppen met een zichtbare legende ("Periode"): één keuze, te doorlopen met de
+  pijltjestoetsen.
+- Vorige en volgende hebben een naam voor een schermlezer ("Vorige periode", "Volgende periode"). De gekozen periode
+  wordt voorgelezen als ze verandert, bv. "4 nov 2026".
+- Volgende en vandaag zijn uitgeschakeld als je al bij vandaag bent.

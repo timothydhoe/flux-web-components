@@ -1,0 +1,45 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataFullscreenStories from './vl-data-fullscreen.stories';
+
+# Data fullscreen
+
+<FluxComponentMetaData id="data-visualisation-data-fullscreen" />
+
+## Doel
+
+Met de `data-fullscreen` component maakt de lezer een
+[data-figure](/docs/data-visualisation-data-figure--documentatie) schermvullend: de grafiek wordt zo hoog als het
+scherm, met kop, tabel en uitleg erbij. Handig bij veel punten of op een klein scherm.
+
+Elke figuur toont de knop standaard al naast de kop. Zet deze component zelf in een
+[data-controls](/docs/data-visualisation-data-controls--documentatie) als je andere knoppen of een andere volgorde
+wil.
+
+## Voorbeeld
+
+```js
+import { VlDataControls, VlDataFullscreen } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-data-controls>
+        <vl-data-fullscreen></vl-data-fullscreen>
+    </vl-data-controls>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataFullscreenStories.DataFullscreenDefault} />
+
+In het iframe van Storybook werkt schermvullend niet altijd; open de story dan in een eigen tabblad.
+
+## Configuratie
+
+<ArgTypes of={VlDataFullscreenStories.DataFullscreenDefault} />
+
+## Toegankelijkheid
+
+- De knop zegt wat hij doet: "Grafiek vergroten", en schermvullend "Grafiek verkleinen", met een ander icoon.
+- `Escape` sluit schermvullend, zoals in elke browser.

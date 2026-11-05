@@ -1,0 +1,63 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataLatestStories from './vl-data-latest.stories';
+
+# Data latest
+
+<FluxComponentMetaData id="data-visualisation-data-latest" />
+
+## Doel
+
+De `data-latest` component toont de laatste waarde groot, met de eenheid en wanneer ze gemeten is. Bij live data is
+dat de eerste vraag van de lezer: hoe is het nu, en hoe oud is dat?
+
+Zet ze in een [data-figure](/docs/data-visualisation-data-figure--documentatie), boven de grafiek, of als tegel naast
+de figuur in een [data-source](/docs/data-visualisation-data-source--documentatie). Ze leest de data van de figuur
+waarin ze staat, anders van de dichtstbijzijnde bron.
+
+## Voorbeeld
+
+```js
+import { VlDataLatest } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-data-latest series="Meetpunt Gent" label="Laatste jaargemiddelde"></vl-data-latest>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataLatestStories.DataLatestDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataLatestStories.DataLatestDefault} />
+
+De laatste waarde is de laatste x met een waarde; een gat aan het einde telt niet. De waarde heeft evenveel
+decimalen als de grafiek, zodat tegel en tooltip hetzelfde zeggen.
+
+## Varianten
+
+### Als tegel naast de figuur
+
+In een `vl-data-source` leest de tegel dezelfde data als de grafiek ernaast, voor dezelfde periode. Kiest de lezer een
+andere periode, dan volgt de tegel mee.
+
+```html
+<vl-data-source src="/api/elf/sensors/ELF_L_0004" period="24h">
+    <vl-data-latest></vl-data-latest>
+    <vl-data-figure>
+        <h3 slot="headline">Magnetische veldsterkte vandaag</h3>
+        <vl-chart-line></vl-chart-line>
+    </vl-data-figure>
+</vl-data-source>
+```
+
+<Canvas of={VlDataLatestStories.DataLatestAsTile} />
+
+## Toegankelijkheid
+
+- Label, waarde met eenheid en tijdstip zijn gewone tekst, in de volgorde waarin je ze leest.
+- Zolang de data laadt, houdt de tegel haar plaats maar is ze onzichtbaar en verborgen voor een schermlezer, zodat er
+  niets verspringt of half voorgelezen wordt.

@@ -1,0 +1,49 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlChartReferenceStories from './vl-chart-reference.stories';
+
+# Chart reference
+
+<FluxComponentMetaData id="data-visualisation-chart-reference" />
+
+## Doel
+
+Met de `chart-reference` component zet je een referentielijn in een grafiek: een waarde om de data aan af te meten,
+zoals een norm, een grenswaarde of een streefwaarde. De lezer ziet meteen of de lijnen erboven of eronder liggen.
+
+De tag tekent zelf niets; de grafiek waarin ze staat, leest `value` en `label` en tekent een dunne gestreepte lijn
+over de hele breedte, met het label links erboven. Verandert een attribuut, dan tekent de grafiek opnieuw.
+
+## Voorbeeld
+
+```js
+import { VlChartLine, VlChartReference } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-chart-line>
+    <vl-chart-reference value="5" label="WHO-advieswaarde"></vl-chart-reference>
+</vl-chart-line>
+```
+
+<Canvas of={VlChartReferenceStories.ChartReferenceDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlChartReferenceStories.ChartReferenceDefault} />
+
+De waarde-as rekt mee tot de referentielijn, ook als alle data eronder of erboven ligt: een norm buiten beeld vertelt
+niets. De waarde staat met haar eigen decimalen bij het label, bv. "WHO-advieswaarde: 5 µg/m³".
+
+## Varianten
+
+### Meer dan één
+
+Elke tag is een lijn met een eigen label, bv. een grenswaarde en een strengere advieswaarde.
+
+<Canvas of={VlChartReferenceStories.ChartReferenceMultiple} />
+
+## Toegankelijkheid
+
+- Een schermlezer hoort de referentielijnen als beschrijving van de grafiek, bv. "Referentielijn: WHO-advieswaarde:
+  5 µg/m³".
+- Kies een label dat zegt wat de waarde is, niet alleen de waarde zelf: "EU-grenswaarde 2030", niet "Norm".

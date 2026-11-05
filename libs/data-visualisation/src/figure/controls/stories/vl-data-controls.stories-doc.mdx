@@ -1,0 +1,64 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataControlsStories from './vl-data-controls.stories';
+
+# Data controls
+
+<FluxComponentMetaData id="data-visualisation-data-controls" />
+
+## Doel
+
+De `data-controls` component is de rij knoppen naast de kop van een
+[data-figure](/docs/data-visualisation-data-figure--documentatie). Ze zet de controls naast elkaar, rechts, en laat
+ze op een smal scherm onder de kop doorlopen. Ze doet zelf niets met de data; dat doet elk control.
+
+Zonder eigen `vl-data-controls` toont de figuur twee knoppen: de grafiek als PNG bewaren en vergroten. Gebruik deze
+component alleen als je andere knoppen of een andere volgorde wil.
+
+## Voorbeeld
+
+```js
+import { VlDataControls, VlDataDownload, VlDataFullscreen } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-data-controls>
+        <vl-data-fullscreen></vl-data-fullscreen>
+        <vl-data-download format="png"></vl-data-download>
+        <vl-data-download format="csv"></vl-data-download>
+    </vl-data-controls>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataControlsStories.DataControlsDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataControlsStories.DataControlsDefault} />
+
+Controls die niet in de rij staan, zoals `vl-data-highlight` of `vl-data-period`, zetten zichzelf ook naast de kop,
+vóór de knoppen van de rij. Zolang de grafiek laadt, houden de controls hun plaats maar zijn ze onzichtbaar, zodat
+er niets verspringt.
+
+## Varianten
+
+### Met tekst
+
+Standaard toont een knop alleen een icoon, met een tooltip. Met `show-label` op `vl-data-download` of
+`vl-data-fullscreen` krijgt de knop ook tekst, bv. als er ruimte genoeg is of als het icoon alleen niet duidelijk is.
+
+<Canvas of={VlDataControlsStories.DataControlsWithLabels} />
+
+### Geen controls
+
+Een lege `vl-data-controls` haalt de standaardknoppen weg.
+
+<Canvas of={VlDataControlsStories.DataControlsEmpty} />
+
+## Toegankelijkheid
+
+- Een knop met alleen een icoon heeft toch een naam ("Download grafiek (PNG)", "Grafiek vergroten"): die toont de
+  tooltip bij hover en focus, en die hoort een schermlezer.
+- De volgorde van de tags is de volgorde voor het toetsenbord.

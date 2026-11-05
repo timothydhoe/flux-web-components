@@ -1,0 +1,100 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlChartLineStories from './vl-chart-line.stories';
+
+# Chart line
+
+<FluxComponentMetaData id="data-visualisation-chart-line" />
+
+## Doel
+
+Gebruik de `chart-line` component om te tonen hoe een waarde verandert over de tijd of over een reeks, bv. de
+concentratie per jaar voor een paar meetpunten. Elke reeks is één lijn, met haar naam en laatste waarde rechts aan het
+einde van de lijn in plaats van een legende: zo lees je de stand af zonder te hoveren. Is daar te weinig plaats,
+bv. op een smal scherm of met lange namen, dan staan dezelfde namen en waarden in een legende boven de grafiek.
+
+Onder de grafiek staat altijd de bron. Zet de grafiek in een [data-figure](/docs/data-visualisation-data-figure--documentatie)
+voor een kop, een tabel met de cijfers en uitleg.
+
+## Voorbeeld
+
+```js
+import { VlChartLine } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-chart-line></vl-chart-line>
+```
+
+```js
+document.querySelector('vl-chart-line').data = {
+    meta: {
+        source: 'Vlaamse Milieumaatschappij',
+        x: { type: 'number', title: 'Jaar' },
+        y: { type: 'number', title: 'Concentratie', unit: 'µg/m³' },
+    },
+    series: [
+        { name: 'Meetpunt Gent', x: Float64Array.from([2022, 2023, 2024]), y: Float64Array.from([11.2, 10.8, 10.1]) },
+    ],
+};
+```
+
+<Canvas of={VlChartLineStories.ChartLineDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlChartLineStories.ChartLineDefault} />
+
+## Data
+
+De grafiek tekent een `ChartModel`, via `.data` of van de dichtstbijzijnde
+[data-source](/docs/data-visualisation-data-source--documentatie).
+
+- `meta.source` is verplicht; zonder bron toont de grafiek een fout. Met `sourceHref` wordt de bron een link,
+  met `isOpenData` staat de open-data-vermelding erbij.
+- `meta.x.type` is `number`, `time` (milliseconden sinds 1970, getoond in lokale tijd) of `category`.
+- `meta.y.unit` staat boven de grafiek en in de tooltip. Laat ze nooit weg: zonder eenheid is een getal niet te lezen.
+- Hoogstens zes reeksen; met meer toont de grafiek een fout.
+- Een `NaN` in `y` is een gat: de lijn wordt daar onderbroken, er wordt nooit overheen getekend.
+
+## Varianten
+
+### Uitlichten
+
+Met `highlight` krijgt één reeks kleur en een dikkere lijn; de andere worden grijs. Gebruik het als de tekst bij de
+grafiek over die ene reeks gaat. De lezer kan zelf kiezen met [data-highlight](/docs/data-visualisation-data-highlight--documentatie).
+
+<Canvas of={VlChartLineStories.ChartLineHighlight} />
+
+### Referentielijn
+
+Zet een `vl-chart-reference` in de grafiek voor een norm of streefwaarde. De waarde-as rekt mee, zodat de lijn altijd
+in beeld is. Meer dan één referentielijn kan.
+
+```html
+<vl-chart-line>
+    <vl-chart-reference value="5" label="WHO-advieswaarde"></vl-chart-reference>
+</vl-chart-line>
+```
+
+<Canvas of={VlChartLineStories.ChartLineReference} />
+
+## Toestanden
+
+De grafiek toont altijd wat er is: een grijs vlak op de plaats van de grafiek zolang er geen data is, een melding als
+er niets te tekenen valt of als de data niet klopt. Laadt er nieuwe data, bv. een andere periode, dan blijft de oude
+grafiek gedimd staan tot de nieuwe er is: de pagina verspringt niet. Elke verandering meldt ze met het `vl-data-change` event.
+
+<Canvas of={VlChartLineStories.ChartLineStates} />
+
+## Toegankelijkheid
+
+- Met de pijltjestoetsen links en rechts loop je door de waarden; `Home` en `End` springen naar de eerste en laatste,
+  `Escape` sluit de tooltip. Een schermlezer leest elke stap voor, bv. "2021: Meetpunt Gent 11,9 µg/m³".
+- Op een touchscherm zet een tik de tooltip vast op de dichtste waarde; een tweede tik of een tik buiten de grafiek
+  haalt hem weg.
+- Bewegingen (inkomen, dimmen, het pulseren tijdens laden) vallen weg met `prefers-reduced-motion`.
+- Een grafiek alleen is niet genoeg: gebruik ze in een `data-figure`, die altijd een tabel met dezelfde cijfers
+  toont (WCAG 1.1.1).
+- De naam van elke reeks staat bij haar lijn; kleur is nooit de enige manier om lijnen te onderscheiden.
+- Hoogstens zes reeksen: meer zijn niet leesbaar te kleuren, en dan toont de grafiek een fout. Gaat de tekst over
+  één reeks, licht die dan uit met `highlight`.

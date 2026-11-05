@@ -43,6 +43,9 @@
             "@domg-wc/components/form": [
                 "libs/components/src/form/index.ts"
             ],
+            "@domg-wc/data-visualisation": [
+               "libs/data-visualisation/src/index.ts"
+            ],
             "@domg-wc/integrations/form": [
                 "libs/integrations/src/form/index.ts"
             ],
