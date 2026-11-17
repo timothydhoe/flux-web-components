@@ -1,0 +1,80 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataAboutStories from './vl-data-about.stories';
+
+# Data about
+
+<FluxComponentMetaData id="data-visualisation-data-about" />
+
+## Doel
+
+Gebruik de `data-about` component om "Over deze data" te tonen onder de grafiek van een
+[data-figure](/docs/data-visualisation-data-figure--documentatie). De bron, de eenheid en het open data label worden
+uit de data gehaald. Eigen tekst in de component wordt eronder getoond.
+
+## Voorbeeld
+
+```js
+import { VlDataAbout } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-chart-line></vl-chart-line>
+    <vl-data-about>
+        <p>De meetpunten staan langs drukke wegen. Ze tonen de hoogste concentraties in de stad.</p>
+    </vl-data-about>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataAboutStories.DataAboutDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataAboutStories.DataAboutDefault} />
+
+## Gebruik
+
+De component toont volgende gegevens uit `meta`:
+
+- **Bron:** voor elke bron in `sources` de titel uit de record, met een link en de `metadataId`.
+- **Eigenaar:** de eigenaar uit de record. De eigenaar wordt ook onder de grafiek getoond.
+- **Licentie:** de licentie uit de record, met een link.
+- **Data:** de `dataHref` van de bron, de plaats waar de cijfers zelf staan.
+- **Eenheid:** `y.unit`. De uitleg bij de eenheid (`y.unitInfo`) wordt naast de as getoond, niet hier.
+- **Open data:** wordt bepaald op basis van de records. Een bron is open data als ze vrij toegankelijk is met een open
+  licentie. Zonder record wordt `isOpenData` gebruikt.
+
+Elke bron krijgt een eigen lijst. Bij meerdere bronnen worden ze genummerd (Bron 1, Bron 2). Daaronder staat wat voor
+de hele figuur geldt: de eenheid en open data. De figuur is enkel open data als alle bronnen open data zijn.
+
+Voeg je zelf geen `vl-data-about` toe, dan toont de figuur er standaard een als een bron een `metadataId`, `license`
+of `dataHref` heeft. De bronregel onder de grafiek toont enkel de titel en de eigenaar.
+
+## Varianten
+
+### Twee bronnen
+
+Elke bron is een record in de [metadatacatalogus](https://metadata.omgeving.vlaanderen.be). Bij twee bronnen worden
+onder de grafiek beide titels met hun eigenaar getoond. In "Over deze data" staan per bron de link naar de catalogus,
+de `metadataId` en de licentie.
+
+De bronnen in dit voorbeeld zijn echte records. Enkel de `metadataId` wordt meegegeven, de rest wordt uit de catalogus
+opgehaald. De cijfers zijn fictief.
+
+<Canvas of={VlDataAboutStories.DataAboutCatalogue} />
+
+## Toegankelijkheid
+
+- De bron, de eenheid en open data staan in een `<dl>` element, zodat een schermlezer bij elke waarde de bijhorende
+  term voorleest.
+
+## Referenties
+
+### Departement Omgeving
+
+[Metadatacatalogus Omgeving](https://metadata.omgeving.vlaanderen.be)
+
+### EU Data Visualisation Guide
+
+[Data Visualisation Guide - Pitfalls in metadata](https://data.europa.eu/apps/data-visualisation-guide/pitfalls-in-metadata-3-stories)

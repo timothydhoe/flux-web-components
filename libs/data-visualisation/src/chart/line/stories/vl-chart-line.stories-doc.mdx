@@ -1,0 +1,116 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlChartLineStories from './vl-chart-line.stories';
+
+# Chart line
+
+<FluxComponentMetaData id="data-visualisation-chart-line" />
+
+## Doel
+
+Gebruik de `chart-line` component om te tonen hoe een waarde verandert doorheen de tijd, bv. de concentratie per jaar
+op een aantal meetpunten. Elke reeks wordt als een lijn getoond. De naam en de laatste waarde van een reeks staan
+standaard aan het einde van de lijn. Als daar niet genoeg plaats is, worden ze in een legende boven de grafiek getoond.
+
+Plaats de grafiek in een [data-figure](/docs/data-visualisation-data-figure--documentatie) om er een kop, een tabel
+en uitleg bij te tonen.
+
+## Voorbeeld
+
+```js
+import { VlChartLine } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-chart-line></vl-chart-line>
+```
+
+```js
+document.querySelector('vl-chart-line').data = {
+    meta: {
+        sources: [{ metadataId: '2bee1b5e-c3c4-59bb-8d9a-742d3002d34e' }],
+        x: { type: 'number', title: 'Jaar' },
+        y: { type: 'number', title: 'Concentratie', unit: 'µg/m³' },
+    },
+    series: [
+        { name: 'Meetpunt Gent', x: Float64Array.from([2022, 2023, 2024]), y: Float64Array.from([11.2, 10.8, 10.1]) },
+    ],
+};
+```
+
+<Canvas of={VlChartLineStories.ChartLineDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlChartLineStories.ChartLineDefault} />
+
+## Gebruik
+
+Je kan de data meegeven via de `data` property, of de grafiek in een
+[data-source](/docs/data-visualisation-data-source--documentatie) plaatsen. De data moet aan volgende regels voldoen:
+
+- `meta.sources` bevat minstens één bron. Een bron is een dataset uit de
+  [metadatacatalogus](https://metadata.omgeving.vlaanderen.be). Je kan enkel de `metadataId` meegeven, de UUID van
+  de record. De grafiek haalt de titel, de eigenaar en de licentie dan zelf op uit de catalogus. Zolang die
+  gegevens niet binnen zijn, of als de catalogus niet bereikbaar is, wordt de `metadataId` getoond met een link naar
+  de record.
+- Heeft een bron geen record in de catalogus, geef dan zelf een `title` mee. De grafiek toont in dat geval een
+  waarschuwing in de console.
+- Met `isOpenData` wordt het open data label getoond.
+- `meta.x.type` is `number`, `time` (in milliseconden) of `category`.
+- `meta.y.unit` is verplicht.
+- Een grafiek toont maximaal zes reeksen.
+- Een ontbrekende meting geef je mee als `NaN` in `y`. De lijn wordt op die plaats onderbroken.
+
+Om een norm of streefwaarde toe te voegen, plaats je een
+[chart-reference](/docs/data-visualisation-chart-reference--documentatie) in de grafiek.
+
+## Varianten
+
+Bij elke wijziging van de toestand stuurt de grafiek een `vl-data-change` event. In een `data-figure` blijven de kop,
+de controls en de uitleg staan, enkel de grafiek zelf wordt aangepast.
+
+### Laden
+
+Zolang er geen data is, wordt een grijs vlak getoond. Bij nieuwe data, bv. na het kiezen van een andere periode, blijft
+de vorige grafiek gedimd staan tot de nieuwe data binnen is.
+
+<Canvas of={VlChartLineStories.ChartLineLoading} />
+
+### Met een onderbreking
+
+Een ontbrekende meting (`NaN` in `y`) onderbreekt de lijn. De lijn wordt nooit doorgetrokken over een onderbreking. De
+toestand is in dat geval `partial`.
+
+<Canvas of={VlChartLineStories.ChartLineGap} />
+
+### Geen gegevens
+
+Als er geen reeksen zijn, wordt een melding getoond in plaats van een lege grafiek.
+
+<Canvas of={VlChartLineStories.ChartLineEmpty} />
+
+### Fout
+
+Als de data niet geldig is, bv. omdat een bron of eenheid ontbreekt, wordt een foutmelding getoond. Meer details vind
+je in de console.
+
+<Canvas of={VlChartLineStories.ChartLineError} />
+
+## Toegankelijkheid
+
+- Met de pijltjestoetsen kan je door de waarden lopen. Met `Home` en `End` spring je naar het begin en het einde, met
+  `Escape` sluit je de tooltip. Een schermlezer leest elke waarde voor, bv. "2021: Meetpunt Gent 11,9 µg/m³".
+- Op een touchscreen toont een tik de dichtstbijzijnde waarde. Tik je opnieuw op dezelfde plaats of buiten de grafiek,
+  dan verdwijnt de waarde.
+- Bij `prefers-reduced-motion` worden er geen animaties getoond.
+- Als de namen niet aan het einde van de lijnen passen, worden ze in een legende getoond. De lijnen zijn dan enkel aan
+  hun kleur te herkennen. De tooltip en de tabel tonen de naam van elke reeks wel.
+- Plaats de grafiek in een `data-figure`, zodat de cijfers ook als tabel beschikbaar zijn (WCAG 1.1.1).
+
+## Referenties
+
+### EU Data Visualisation Guide
+
+[Data Visualisation Guide - Labels and marks](https://data.europa.eu/apps/data-visualisation-guide/labels-and-marks)<br/>
+[Data Visualisation Guide - Number of series](https://data.europa.eu/apps/data-visualisation-guide/number-of-series)<br/>
+[Data Visualisation Guide - Line interpolations](https://data.europa.eu/apps/data-visualisation-guide/line-interpolations)

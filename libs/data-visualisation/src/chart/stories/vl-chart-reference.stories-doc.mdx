@@ -1,0 +1,61 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlChartReferenceStories from './vl-chart-reference.stories';
+
+# Chart reference
+
+<FluxComponentMetaData id="data-visualisation-chart-reference" />
+
+## Doel
+
+Gebruik de `chart-reference` component om een referentielijn aan een grafiek toe te voegen, zoals een norm of een
+streefwaarde. Zo ziet de gebruiker meteen of de metingen boven of onder die waarde liggen.
+
+De component wordt zelf niet getoond. De grafiek waarin ze staat, tekent een dunne gestreepte lijn over de volledige
+breedte, met het label linksboven de lijn. Als een attribuut wijzigt, wordt de grafiek opnieuw getekend.
+
+## Voorbeeld
+
+```js
+import { VlChartLine, VlChartReference } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-chart-line>
+    <vl-chart-reference value="0.4" label="Vlaamse streefwaarde" in-view></vl-chart-reference>
+</vl-chart-line>
+```
+
+<Canvas of={VlChartReferenceStories.ChartReferenceDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlChartReferenceStories.ChartReferenceDefault} />
+
+## Gebruik
+
+Plaats de `chart-reference` in de grafiek. De waarde wordt met haar eigen aantal decimalen naast het label getoond,
+bv. "Vlaamse streefwaarde: 0,4 µT". Je kan meerdere referentielijnen toevoegen, elk met een eigen label.
+
+## Varianten
+
+### Ver van de data
+
+Met het `in-view` attribuut wordt de waarde-as verlengd tot de referentielijn zichtbaar is. Gebruik dit enkel als de
+lijn dicht bij de data ligt. Een as tot 100 µT voor metingen rond 0,3 µT maakt de data onleesbaar.
+
+Zonder `in-view` wordt de lijn enkel getekend als ze binnen het bereik van de data valt. Anders wordt ze als notitie
+boven de grafiek getoond, met een pijl die aangeeft aan welke kant ze ligt.
+
+<Canvas of={VlChartReferenceStories.ChartReferenceFarAway} />
+
+## Toegankelijkheid
+
+- Een schermlezer leest alle referentielijnen voor als beschrijving van de grafiek, ook de notities boven de
+  grafiek, bv. "Referentielijnen: Vlaamse streefwaarde: 0,4 µT; EU-referentieniveau: 100 µT."
+- Kies een label dat beschrijft wat de waarde betekent, bv. "Vlaamse streefwaarde" in plaats van "Norm".
+
+## Referenties
+
+### EU Data Visualisation Guide
+
+[Data Visualisation Guide - Text annotations: anatomy](https://data.europa.eu/apps/data-visualisation-guide/text-annotations-anatomy)

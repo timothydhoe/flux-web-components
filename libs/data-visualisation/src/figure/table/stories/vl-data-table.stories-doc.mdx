@@ -1,0 +1,55 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataTableStories from './vl-data-table.stories';
+
+# Data table
+
+<FluxComponentMetaData id="data-visualisation-data-table" />
+
+## Doel
+
+Gebruik de `data-table` component om de cijfers van de grafiek in een tabel te tonen, onder "Bekijk de cijfers". De
+tabel is het tekstalternatief van de grafiek. Dezelfde cijfers kan je ook downloaden als CSV.
+
+Elke [data-figure](/docs/data-visualisation-data-figure--documentatie) toont de tabel standaard. Je hoeft ze niet
+zelf toe te voegen.
+
+## Voorbeeld
+
+```js
+import { VlDataTable } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <vl-chart-line></vl-chart-line>
+    <vl-data-table></vl-data-table>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataTableStories.DataTableDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataTableStories.DataTableDefault} />
+
+## Gebruik
+
+- De tabel heeft een kolom per reeks en een rij per x-waarde.
+- Een ontbrekende meting wordt als een lege cel getoond, nooit als 0. Boven de tabel wordt uitgelegd wat een lege cel
+  betekent.
+- Voeg je zelf een `vl-data-table` toe aan de figuur, dan wordt de tabel op die plaats getoond.
+
+## Toegankelijkheid
+
+- De tabel kan niet weggelaten worden (WCAG 1.1.1).
+- Een schermlezer leest bij elke cel de reeks en de x-waarde voor.
+
+## Referenties
+
+### W3C
+
+[WCAG 2.2 - Understanding 1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html)
+
+### EU Data Visualisation Guide
+
+[Data Visualisation Guide - Web accessibility](https://data.europa.eu/apps/data-visualisation-guide/web-accessibility)

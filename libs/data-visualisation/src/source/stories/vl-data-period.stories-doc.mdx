@@ -1,0 +1,51 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataPeriodStories from './vl-data-period.stories';
+
+# Data period
+
+<FluxComponentMetaData id="data-visualisation-data-period" />
+
+## Doel
+
+Gebruik de `data-period` component om de gebruiker de periode te laten kiezen die de grafieken tonen. De gebruiker
+kan kiezen uit 24 uur, 7 dagen, 30 dagen of 1 jaar. Met de knoppen vorige en volgende ga je een volledige periode
+terug of vooruit, maar nooit verder dan vandaag. "24 uur" is één kalenderdag, van middernacht tot middernacht.
+
+De gekozen periode geldt voor alle componenten in de omliggende
+[data-source](/docs/data-visualisation-data-source--documentatie).
+
+## Voorbeeld
+
+```js
+import { VlDataPeriod, VlDataSource } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-source src="https://example.org/FROST-Server/v1.1/Things(1)" period="24h">
+    <vl-data-figure>
+        <h3 slot="headline">Magnetische veldsterkte</h3>
+        <vl-data-period></vl-data-period>
+        <vl-chart-line></vl-chart-line>
+    </vl-data-figure>
+</vl-data-source>
+```
+
+<Canvas of={VlDataPeriodStories.DataPeriodDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataPeriodStories.DataPeriodDefault} />
+
+## Gebruik
+
+De periode die getoond wordt bij het laden van de pagina, stel je in op de `data-source` met de `period` en `end`
+attributen. Binnen een figuur wordt de `data-period` onder de kop geplaatst. De gekozen periode geldt ook dan voor
+alle componenten in de `data-source`.
+
+## Toegankelijkheid
+
+- De periodes zijn radioknoppen met de legende "Periode". Je kan een periode kiezen met de pijltjestoetsen.
+- De knoppen vorige en volgende hebben een toegankelijke naam. Een schermlezer leest de nieuwe periode voor, bv. "4
+  nov 2026".
+- De knop volgende is uitgeschakeld zodra de periode tot vandaag loopt. De knop "Vandaag" wordt dan niet getoond. Klik
+  je erop, dan gaat de focus naar "Vorige periode".

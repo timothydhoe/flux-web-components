@@ -1,0 +1,53 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataFullscreenStories from './vl-data-fullscreen.stories';
+
+# Data fullscreen
+
+<FluxComponentMetaData id="data-visualisation-data-fullscreen" />
+
+## Doel
+
+Gebruik de `data-fullscreen` component om de gebruiker een
+[data-figure](/docs/data-visualisation-data-figure--documentatie) schermvullend te laten tonen. Dit is handig bij veel
+meetpunten of op een klein scherm.
+
+Elke figuur toont deze knop standaard. Gebruik `data-fullscreen` in een
+[data-controls](/docs/data-visualisation-data-controls--documentatie) als je andere knoppen of een andere volgorde
+wil.
+
+## Voorbeeld
+
+```js
+import { VlDataControls, VlDataFullscreen } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-data-controls>
+        <vl-data-fullscreen></vl-data-fullscreen>
+    </vl-data-controls>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataFullscreenStories.DataFullscreenDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataFullscreenStories.DataFullscreenDefault} />
+
+## Gebruik
+
+Als schermvullend tonen niet werkt in Storybook, open de story dan in een apart tabblad.
+
+## Toegankelijkheid
+
+- De knop heet "Grafiek vergroten". In de schermvullende weergave heet hij "Grafiek verkleinen".
+- Met `Escape` sluit je de schermvullende weergave.
+
+## Referenties
+
+### MDN
+
+[MDN - Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API)

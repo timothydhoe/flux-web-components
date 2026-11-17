@@ -1,0 +1,161 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataSourceStories from './vl-data-source.stories';
+
+# Data source
+
+<FluxComponentMetaData id="data-visualisation-data-source" />
+
+## Doel
+
+Gebruik de `data-source` component om data op te halen voor alle grafieken en controls die erin staan. Zo tonen ze
+steeds dezelfde periode. De component zelf wordt niet getoond.
+
+Een grafiek zonder eigen `data` property toont de data van de omliggende `data-source`. Met een
+[data-period](/docs/data-visualisation-data-period--documentatie) kan de gebruiker een andere periode kiezen.
+
+## Voorbeeld
+
+```js
+import { VlChartLine, VlDataFigure, VlDataPeriod, VlDataSource } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-source src="https://example.org/FROST-Server/v1.1/Things(1)" period="24h">
+    <vl-data-figure>
+        <h3 slot="headline">Magnetische veldsterkte</h3>
+        <vl-data-period></vl-data-period>
+        <vl-chart-line></vl-chart-line>
+    </vl-data-figure>
+</vl-data-source>
+```
+
+<Canvas of={VlDataSourceStories.DataSourceDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataSourceStories.DataSourceDefault} />
+
+## Gebruik
+
+Met het `format` attribuut geef je aan waar de data vandaan komt:
+
+- `sensorthings` (standaard): een sensorplatform zoals FROST. Het `src` attribuut is de URL van een meetpunt, bv.
+  `https://…/v1.1/Things(1)`.
+- `sample-data`: een JSON-bestand met voorbeelddata of een mock-API. Het `src` attribuut is de URL van het bestand of
+  de API.
+
+## Varianten
+
+### Sensorplatform (`sensorthings`)
+
+Gebruik `sensorthings` voor echte data uit een SensorThings API, zoals FROST. Ook cijfers die het dataplatform
+berekent, zoals jaargemiddelden, worden op deze manier opgehaald. Het voorbeeld bovenaan gebruikt deze variant.
+
+Het `src` attribuut verwijst naar een meetpunt (_Thing_) of naar één meetreeks (_Datastream_). Elke meetreeks met
+getallen wordt als een lijn getoond.
+
+De grafiek haalt volgende gegevens uit het platform:
+
+- **Naam van de lijn:** de `name` van het meetpunt. Heeft het meetpunt meer dan één meetreeks, dan wordt de `name`
+  van de Datastream gebruikt.
+- **Titel:** de `name` van de ObservedProperty.
+- **Eenheid:** `unitOfMeasurement.symbol`.
+- **Uitleg bij de eenheid:** `properties.unitDefinition` van de ObservedProperty. Indien niet aanwezig, wordt die van
+  de Datastream gebruikt.
+- **Bron:** `properties.source` van elke Datastream. Een bron die meerdere keren voorkomt, wordt één keer getoond.
+- **Tijd:** `phenomenonTime`. Bij een periode, bv. een jaargemiddelde, wordt het begin van die periode gebruikt.
+- **Open data:** `properties.isOpenData`.
+- **Onderbreking:** als er langer dan `properties.gapThreshold` (bv. `PT5M`) geen meting is, wordt de lijn onderbroken.
+
+Alle meetreeksen moeten dezelfde eenheid hebben. Is dat niet het geval, dan toont de grafiek een foutmelding.
+
+#### Bron
+
+`properties.source` verwijst naar de record van de dataset in de
+[metadatacatalogus](https://metadata.omgeving.vlaanderen.be). Je kan enkel de `metadataId` meegeven:
+
+```json
+"source": { "metadataId": "1fe4dff9-87b4-5646-b29a-a026025f520e" }
+```
+
+De `metadataId` is de UUID van de record, die je terugvindt in de link naar de catalogus. Let op: dit is niet de
+UUID van de dataset zelf. De grafiek haalt de titel, de eigenaar (de organisatie met rol _owner_) en de licentie op
+uit de record. Wijzigt de eigenaar de record, dan toont de grafiek automatisch de nieuwe gegevens.
+
+De link naar de cijfers (`dataHref`) verwijst standaard naar de Datastream. Delen meerdere meetreeksen dezelfde bron,
+dan verwijst de link naar het meetpunt. Geef enkel zelf een `dataHref` mee als de cijfers op een andere plaats staan.
+
+De component haalt het meetpunt één keer op. Daarna worden per periode de metingen van elke meetreeks opgehaald
+(`…/Datastreams(n)/Observations`).
+
+### Voorbeelddata (`sample-data`)
+
+Gebruik `sample-data` om een webapp te bouwen zolang de echte data nog niet beschikbaar is, of voor stories en
+tests. Voor echte data gebruik je `sensorthings`.
+
+De component vraagt de data op via `src?from=…&to=…` en verwacht een ChartModel in JSON-formaat. Dat is de data zoals
+de grafiek ze tekent. Een statisch bestand houdt geen rekening met `from` en `to`, waardoor elke periode dezelfde data
+toont.
+
+Je kan het onderstaande voorbeeld bewaren als `elf.json` in je webapp en het `src` attribuut instellen op `elf.json`.
+Het voorbeeld bevat twee meetpunten met metingen over een uur, waarvan één ontbrekende meting.
+
+```json
+{
+    "meta": {
+        "sources": [{ "metadataId": "1fe4dff9-87b4-5646-b29a-a026025f520e" }],
+        "x": { "type": "time" },
+        "y": {
+            "type": "number",
+            "title": "Magnetische veldsterkte",
+            "unit": "µT",
+            "unitInfo": "microtesla, de sterkte van het magnetisch veld."
+        }
+    },
+    "series": [
+        {
+            "name": "Temse",
+            "x": [
+                "2026-11-04T09:00:00+01:00",
+                "2026-11-04T09:10:00+01:00",
+                "2026-11-04T09:20:00+01:00",
+                "2026-11-04T09:30:00+01:00",
+                "2026-11-04T09:40:00+01:00",
+                "2026-11-04T09:50:00+01:00",
+                "2026-11-04T10:00:00+01:00"
+            ],
+            "y": [0.331, 0.311, 0.298, 0.318, 0.342, 0.333, 0.31]
+        },
+        {
+            "name": "Beringen",
+            "x": [
+                "2026-11-04T09:00:00+01:00",
+                "2026-11-04T09:10:00+01:00",
+                "2026-11-04T09:20:00+01:00",
+                "2026-11-04T09:30:00+01:00",
+                "2026-11-04T09:40:00+01:00",
+                "2026-11-04T09:50:00+01:00",
+                "2026-11-04T10:00:00+01:00"
+            ],
+            "y": [0.22, 0.207, 0.198, null, 0.228, 0.222, 0.207]
+        }
+    ]
+}
+```
+
+- Een tijdstip is een datum in [ISO-formaat](https://en.wikipedia.org/wiki/ISO_8601) of een aantal milliseconden.
+- Een ontbrekende meting geef je mee als `null`. De lijn wordt op die plaats onderbroken.
+- Elke reeks heeft een eigen `x`, zodat de meetpunten niet op hetzelfde moment hoeven te meten.
+
+<Canvas of={VlDataSourceStories.DataSourceSampleData} />
+
+## Toegankelijkheid
+
+- Tijdens het laden behouden de grafiek en de controls hun plaats, zodat de pagina niet verspringt.
+- Als de bron niet bereikbaar is, toont de grafiek een melding in plaats van een lege grafiek.
+
+## Referenties
+
+### OGC
+
+[OGC SensorThings API Part 1: Sensing 1.1](https://docs.ogc.org/is/18-088/18-088.html)

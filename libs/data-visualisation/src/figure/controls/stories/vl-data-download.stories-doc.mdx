@@ -1,0 +1,72 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataDownloadStories from './vl-data-download.stories';
+
+# Data download
+
+<FluxComponentMetaData id="data-visualisation-data-download" />
+
+## Doel
+
+Gebruik de `data-download` component om de gebruiker een
+[data-figure](/docs/data-visualisation-data-figure--documentatie) als bestand te laten bewaren. Er zijn twee formaten:
+
+- `png`: de grafiek met de kop, de eenheid en de bron, om te delen.
+- `csv`: de cijfers zonder afronding, om mee te rekenen.
+
+Het bestand krijgt de kop als naam. Is er geen kop, dan heet het bestand `grafiek`.
+
+Elke figuur toont standaard een PNG-knop naast de kop en een CSV-knop bij de tabel. Gebruik `data-download` in een
+[data-controls](/docs/data-visualisation-data-controls--documentatie) als je andere knoppen of een andere volgorde
+wil.
+
+## Voorbeeld
+
+```js
+import { VlDataControls, VlDataDownload } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-data-controls>
+        <vl-data-download format="png"></vl-data-download>
+    </vl-data-controls>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataDownloadStories.DataDownloadDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataDownloadStories.DataDownloadDefault} />
+
+## Varianten
+
+### CSV
+
+Met `format="csv"` worden de cijfers zonder afronding bewaard.
+
+<Canvas of={VlDataDownloadStories.DataDownloadCsv} />
+
+### Met tekst
+
+Met het `show-label` attribuut wordt de naam van de knop naast het icoon getoond, bv. in de kop van de tabel.
+
+<Canvas of={VlDataDownloadStories.DataDownloadShowLabel} />
+
+## Toegankelijkheid
+
+- De knop heeft een toegankelijke naam met het formaat, bv. "Download cijfers (CSV)". De naam wordt in een tooltip
+  getoond en door een schermlezer voorgelezen.
+- Tijdens het laden is de knop onzichtbaar, maar behoudt hij zijn plaats.
+
+## Referenties
+
+### EU Data Visualisation Guide
+
+[Data Visualisation Guide - CSV files](https://data.europa.eu/apps/data-visualisation-guide/csv-files)
+
+### MDN
+
+[MDN - HTMLAnchorElement: download](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAnchorElement/download)

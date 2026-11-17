@@ -18,6 +18,15 @@ const config: StorybookConfig = {
         '../../../libs/components/src/block/**/*.stories.@(js|jsx|ts|tsx)',
         '../../../libs/components/src/compliance/**/*.stories.@(js|jsx|ts|tsx)',
         '../../../libs/components/src/form/**/*.stories.@(js|jsx|ts|tsx)',
+        // Data visualisation in de volgorde van de sidebar: overzicht, grafiek, figuur (eerst de figuur zelf),
+        // bron (eerst de bron zelf).
+        '../../../libs/data-visualisation/src/*.mdx',
+        '../../../libs/data-visualisation/src/chart/**/*.stories.@(js|jsx|ts|tsx)',
+        '../../../libs/data-visualisation/src/figure/stories/*.stories.@(js|jsx|ts|tsx)',
+        '../../../libs/data-visualisation/src/figure/!(stories)/**/*.stories.@(js|jsx|ts|tsx)',
+        '../../../libs/data-visualisation/src/source/stories/vl-data-source.stories.@(js|jsx|ts|tsx)',
+        '../../../libs/data-visualisation/src/source/stories/!(vl-data-source).stories.@(js|jsx|ts|tsx)',
+        '../../../libs/data-visualisation/src/map/stories/*.stories.@(js|jsx|ts|tsx)',
         '../../../libs/map/src/**/*.stories.@(js|jsx|ts|tsx)',
         '../../../libs/styles/src/**/*.stories.@(js|jsx|ts|tsx)',
     ],
@@ -172,7 +181,7 @@ const config: StorybookConfig = {
         // alleen tijdens 'storybook dev' heb je een server
         if (configType === 'DEVELOPMENT') {
             const allow = new Set([
-                ...(config.server.fs.allow ?? []),
+                ...(config.server?.fs?.allow ?? []),
                 r('.'), // .storybook
                 r('../docs'), // ← jouw MDX docs-map
                 r('../stories'), // (optioneel) stories-map

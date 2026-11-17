@@ -1,0 +1,62 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataFigureStories from './vl-data-figure.stories';
+
+# Data figure
+
+<FluxComponentMetaData id="data-visualisation-data-figure" />
+
+## Doel
+
+Gebruik de `data-figure` component rond elke grafiek om er een kop, controls, een tabel en uitleg bij te tonen. Zo is
+elke figuur op dezelfde manier opgebouwd.
+
+## Voorbeeld
+
+```js
+import { VlChartLine, VlDataFigure } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">Sinds 2019 daalt de concentratie in Gent elk jaar</h3>
+    <p slot="subtitle">Jaargemiddelde per meetpunt, 2018-2024</p>
+    <vl-chart-line></vl-chart-line>
+    <vl-data-reading-guide>
+        <p>Elke lijn is een meetpunt. Hoe hoger de lijn, hoe meer stof er in de lucht zat.</p>
+    </vl-data-reading-guide>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataFigureStories.DataFigureDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataFigureStories.DataFigureDefault} />
+
+## Gebruik
+
+Een figuur is van boven naar onder als volgt opgebouwd:
+
+1. **Kop en controls.** Standaard worden twee knoppen getoond: bewaren als PNG en schermvullend tonen.
+2. **Filters.** De componenten die bepalen welke data de grafiek toont, bv. de periode.
+3. **Visual.** De grafiek zelf.
+4. **Uitleg.** "Bekijk de cijfers" (de tabel) wordt altijd getoond, gevolgd door je eigen uitleg. "Over deze data"
+   wordt getoond als er uitleg bij de eenheid is.
+
+De controls, de periode, de tabel en de uitleg worden automatisch op de juiste plaats gezet. `vl-data-download` en
+`vl-data-fullscreen` plaats je in een `vl-data-controls`. Voeg je zelf een `vl-data-controls`, `vl-data-table` of
+`vl-data-about` toe, dan vervangt die het standaardonderdeel.
+
+## Toegankelijkheid
+
+- De figuur is een `<figure>` element, met de kop en de ondertitel als onderschrift. Laat de kop enkel weg als de
+  tekst rond de figuur al beschrijft wat ze toont.
+- Kies het niveau van de kop zodat het past in de structuur van je pagina.
+- De tabel kan niet weggelaten worden, omdat ze het tekstalternatief van de grafiek is (WCAG 1.1.1).
+- De knoppen tonen enkel een icoon. Hun naam wordt in een tooltip getoond en door een schermlezer voorgelezen.
+
+## Referenties
+
+### MDN
+
+[MDN - `<figure>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/figure)

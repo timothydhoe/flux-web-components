@@ -1,0 +1,51 @@
+import { ArgTypes, Canvas } from '@storybook/addon-docs/blocks';
+import * as VlDataControlsStories from './vl-data-controls.stories';
+
+# Data controls
+
+<FluxComponentMetaData id="data-visualisation-data-controls" />
+
+## Doel
+
+Gebruik de `data-controls` component om zelf te bepalen welke knoppen naast de kop van een
+[data-figure](/docs/data-visualisation-data-figure--documentatie) getoond worden. Op een smal scherm worden de knoppen
+onder de kop getoond.
+
+Standaard toont de figuur twee knoppen: bewaren als PNG en schermvullend tonen. Gebruik `data-controls` enkel als je
+andere knoppen of een andere volgorde wil.
+
+## Voorbeeld
+
+```js
+import { VlDataControls, VlDataDownload, VlDataFullscreen } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-figure>
+    <h3 slot="headline">In Gent en Antwerpen daalt de concentratie sinds 2020</h3>
+    <vl-data-controls>
+        <vl-data-fullscreen></vl-data-fullscreen>
+        <vl-data-download format="png"></vl-data-download>
+        <vl-data-download format="csv"></vl-data-download>
+    </vl-data-controls>
+    <vl-chart-line></vl-chart-line>
+</vl-data-figure>
+```
+
+<Canvas of={VlDataControlsStories.DataControlsDefault} />
+
+## Configuratie
+
+<ArgTypes of={VlDataControlsStories.DataControlsDefault} />
+
+## Gebruik
+
+- Een `vl-data-period` in de figuur wordt naast de kop getoond, vóór de knoppen.
+- Met het `show-label` attribuut toont een knop naast het icoon ook tekst.
+- Een lege `vl-data-controls` verbergt de standaardknoppen.
+
+## Toegankelijkheid
+
+- Een knop met enkel een icoon heeft een toegankelijke naam, bv. "Grafiek vergroten". De naam wordt in een tooltip
+  getoond en door een schermlezer voorgelezen.
+- De volgorde van de knoppen in de HTML bepaalt de volgorde bij navigatie met het toetsenbord.

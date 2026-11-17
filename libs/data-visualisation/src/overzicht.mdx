@@ -1,0 +1,65 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as DataSourceStories from './source/stories/vl-data-source.stories';
+
+<Meta title="Data visualisation - Overzicht" />
+
+# Data visualisation
+
+De datavisualisatiecomponenten breiden de webcomponentenbibliotheek van
+Departement Omgeving uit met bouwstenen voor het visualiseren van data. Ze
+helpen je om data op een consistente en toegankelijke manier te presenteren.
+
+Met het eenvoudige patroon **bron → figuur → grafiek** bouw je meetdata op in
+een grafiek, inclusief eenheid, bron, tabel en uitleg.
+
+De datavisualisatiecomponenten bouwen verder op de Flux-componenten en
+hergebruiken deze waar mogelijk als basis.
+
+<Canvas of={DataSourceStories.DataSourceDefault} />
+
+## Bouwstenen
+
+**Bron**
+
+De bron haalt de data op en bepaalt welke periode wordt weergegeven. Gebruik
+hiervoor `vl-data-source` en `vl-data-period`.
+
+**Figuur**
+
+De figuur bevat de UX rond een grafiek en zorgt voor herkenbaarheid en
+toegankelijkheid. `vl-data-figure` bouwt automatisch de nodige structuur op,
+zoals een titel, subtitle, controls, tabel en uitleg. Hiervoor gebruikt de
+figuur de onderdelen `vl-data-*`.
+
+**Grafiek**
+
+De grafiek visualiseert de data in de gewenste vorm, bijvoorbeeld met
+`vl-chart-line`. Een norm of streefwaarde toon je met `vl-chart-reference` in
+de grafiek.
+
+## Voorbeeld
+
+```js
+import { VlChartLine, VlDataFigure, VlDataPeriod, VlDataSource } from '@domg-wc/data-visualisation';
+```
+
+```html
+<vl-data-source src="https://example.org/FROST-Server/v1.1/Things(1)" period="24h">
+    <vl-data-figure>
+        <h3 slot="headline">Magnetische veldsterkte</h3>
+        <p slot="subtitle">Temse, sensor ELF_L_0004, 380 kV</p>
+        <vl-data-period></vl-data-period>
+        <vl-chart-line></vl-chart-line>
+    </vl-data-figure>
+</vl-data-source>
+```
+
+## Afspraken
+
+- **Jij schrijft de tekst.** Je kiest het niveau van de kop (`<h2>`, `<h3>`).
+  De figuur zorgt voor de correcte Flux implementatie.
+- **De tabel is verplicht.** De tabel is het tekstalternatief voor de grafiek
+  en maakt de data ook zonder grafiek toegankelijk.
+- **Gebruik een vaste opbouw.** Van boven naar onder: kop met controls,
+  grafiek, tabel, en uitleg.
+- **De waarde-as bevat altijd 0.**
